@@ -29,10 +29,7 @@ module.exports = {
             "error",
             "single"
         ],
-        "semi": [
-            "error",
-            "never"
-        ],
+        "semi": 'off',
         'no-unused-vars': ['error', { "args": "none" }],
         'no-console': 'off'
     }

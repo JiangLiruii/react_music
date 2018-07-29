@@ -13,7 +13,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "start:dev": "node ./server.js"
+    "start:dev": "node ./public/server.js"
   },
   "devDependencies": {
     "@types/react": "^16.4.7",
