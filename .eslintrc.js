@@ -5,7 +5,7 @@ module.exports = {
         "es6": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended","plugin:react/recommended"],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -32,6 +32,8 @@ module.exports = {
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        'no-unused-vars': ['error', { "args": "none" }],
+        'no-console': 'off'
     }
 };
