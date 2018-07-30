@@ -1,4 +1,5 @@
-import request from 'superagent';
+import axios from 'axios';
+
 import { handleActions } from 'redux-actions';
 
 interface songListState {
@@ -13,19 +14,20 @@ const initalState = {
 
 
 export function fetchMusicsActionCreator(query:string) {
-    request('POST','http://mobilecdn.kugou.com/api/v3/search/song?format=json&keyword='+ 
-    encodeURIComponent(query) + '&page=1&pagesize=90&showtype=2')
-    .then(
-      res => {
-        console.log(res.status,JSON.parse(res.text).data.info);
-        // if(res.status === 200) {
-        //     fn(JSON.parse(res.text).data.info);
-        // }
-      })
-    return {
-      type: FETCH_MUSICS,
-    }
+  const url = `http://mobilecdn.kugou.com/api/v3/search/song?format=json&keyword=${encodeURIComponent(query)}&page=1&pagesize=90&showtype=2`;
+  console.log(url)
+  axios.get(url, {withCredentials:true })
+  .then(res => {
+      console.log(res)
+      // console.log(res.status,JSON.parse(res.text).data.info);
+      // if(res.status === 200) {
+      //     fn(JSON.parse(res.text).data.info);
+      // }
+    })
+  return {
+    type: FETCH_MUSICS,
   }
+}
 export function reducer() {
   return handleActions({
     [FETCH_MUSICS]: (state, action) => ({

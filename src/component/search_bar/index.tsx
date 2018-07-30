@@ -8,29 +8,53 @@ interface searchBarProps {
 }
 interface searchBarStates {
   searchInput:string,
+  need_clear:boolean,
 }
 
 class searchBar extends React.Component<searchBarProps, searchBarStates> {
   constructor(props:searchBarProps) {
     super(props);
     this.state = {
-      searchInput: '歌曲名/歌手名'
+      searchInput: '歌手名/歌名',
+      need_clear: true,
     }
+    this._onChange = this._onChange.bind(this);
+    this._onClick = this._onClick.bind(this);
+    this._search = this._search.bind(this);
+    this._onBlur = this._onBlur.bind(this);
   };
-  public onChange(e:React.ChangeEvent<HTMLInputElement>) {
-    const searchInput = e.currentTarget.value
+  private _onChange(e:React.ChangeEvent<HTMLInputElement>) {
+    let searchInput = e.currentTarget.value
+
+    if (searchInput.length !== 0) {
+      this.setState({
+        need_clear: false,
+      }) 
+    }
     this.setState({
-      searchInput
+      searchInput,
     })
   };
-  public search() {
+  private _search(e:any) {
+    e.preventDefault();
     this.props.fetchMusic(this.state.searchInput);
   };
+  private _onClick() {
+    this.state.need_clear && this.setState({
+      searchInput: ''
+    })
+  }
+  private _onBlur(e:any) {
+    !e.currentTarget.value && this.setState({
+      searchInput: '歌手名/歌名',
+      need_clear: true,
+    })
+  }
   render() {
     return (
       <div>
-        <input type="text" defaultValue="歌曲名/歌手名" onChange={this.onChange}/>
-        <button type="submit" onClick={this.search}>sousss</button>
+        <input type="text" value={this.state.searchInput} onBlur={this._onBlur} onClick={this._onClick} onChange={this._onChange}/>
+        <button type="submit" onClick={this._search}>sousssffff</button>
       </div>
     )
   }
