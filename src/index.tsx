@@ -5,9 +5,9 @@ import { createStore } from 'redux';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import Music from './reducer';
+import Reducer from './reducer';
 
-const store = createStore(Music)
+const store = createStore(Reducer)
 
 ReactDOM.render(
 <Provider store={store}>
