@@ -12,7 +12,7 @@ const initalState:songState = {
 }
 
 
-export function fetchMusicsActionCreator(query:string) {
+export function fetchMusicsActionCreator(songs_list:string[]) {
   /**
    * 接口说明
    * type: 
@@ -32,29 +32,20 @@ export function fetchMusicsActionCreator(query:string) {
    *    1009 主播电台
    *    后跟s=xxx表示关键字, offset第几页 limit一页返回多少首歌曲 type=search&s=helloworld&offset=2&limit=20
    */
-  const xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === 4) {
-      if (xhr.status >- 200 && xhr.status < 304 || xhr.status == 304) {
-        const res = JSON.parse(xhr.response);
-        const songs_list = res.result.songs;
-        return {
-          type: FETCH_MUSICS,
-          songs_list,
-        }
+  return {
+    type: FETCH_MUSICS,
+    payload: {songs_list},
+  }
+}
+function songStateReducer() {
+  return handleActions({
+    [FETCH_MUSICS]: (state, action) => {
+      console.log(action);
+      return {
+        ...state,
+        songs_list: action.payload.songs_list,
       }
     }
-  }
-  const url = `https://api.imjad.cn/cloudmusic/?type=search&s=${query}&offset=2&limit=20`;
-  console.log(url);
-  xhr.open('get', url);
-  xhr.send(null);
-}
-export function songStateReducer() {
-  return handleActions({
-    [FETCH_MUSICS]: (state, action) => ({
-      ...state,
-      songs_list: action.payload.songs_list
-    })
   }, initalState)
 }
+export default songStateReducer();
