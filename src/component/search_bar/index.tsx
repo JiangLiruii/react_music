@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchMusicsActionCreator } from '../../reducer/song_list';
 
 interface searchBarProps {
-  fetchMusic:Function,
+  fetchMusic:typeof fetchMusicsActionCreator,
   musics: any[],
 }
 interface searchBarStates {
@@ -37,7 +37,20 @@ class searchBar extends React.Component<searchBarProps, searchBarStates> {
   };
   private _search(e:any) {
     e.preventDefault();
-    this.props.fetchMusic(this.state.searchInput);
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        if (xhr.status >- 200 && xhr.status < 304 || xhr.status == 304) {
+          const res = JSON.parse(xhr.response);
+          const songs_list = res.result.songs;
+          this.props.fetchMusic(songs_list);
+        }
+      }
+    }
+    const url = `https://api.imjad.cn/cloudmusic/?type=search&s=${this.state.searchInput}&offset=2&limit=20`;
+    console.log(url);
+    xhr.open('get', url);
+    xhr.send(null);
   };
   private _onClick() {
     this.state.need_clear && this.setState({
@@ -69,4 +82,4 @@ function map_dispatch_to_props() {
     fetchMusic: fetchMusicsActionCreator
   }
 }
-export default connect(map_states_to_props, map_dispatch_to_props)(searchBar)
+export default connect(map_states_to_props, map_dispatch_to_props())(searchBar)
