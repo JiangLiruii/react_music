@@ -1,15 +1,14 @@
-import axios from 'axios';
-
 import { handleActions } from 'redux-actions';
+import { songInfo } from './song_info';
 
-interface songListState {
-  song_list:any[],
+export interface songState {
+  songs_list:songInfo[],
 }
 
 const FETCH_MUSICS = 'music/FETCH_MUSICS'
 
-const initalState = {
-  song_list: [],
+const initalState:songState = {
+  songs_list: [],
 }
 
 
@@ -32,25 +31,30 @@ export function fetchMusicsActionCreator(query:string) {
    *    1006 歌词
    *    1009 主播电台
    *    后跟s=xxx表示关键字, offset第几页 limit一页返回多少首歌曲 type=search&s=helloworld&offset=2&limit=20
-   *    e.g 
    */
-  const url = `https://api.imjad.cn/cloudmusic/?type=search&s=${query}&offset=2&limit=20`;
-  axios.get(url)
-  .then(res => {
-      console.log(res)
-      // console.log(res.status,JSON.parse(res.text).data.info);
-      // if(res.status === 200) {
-      //     fn(JSON.parse(res.text).data.info);
-      // }
-    })
-  return {
-    type: FETCH_MUSICS,
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status >- 200 && xhr.status < 304 || xhr.status == 304) {
+        const res = JSON.parse(xhr.response);
+        const songs_list = res.result.songs;
+        return {
+          type: FETCH_MUSICS,
+          songs_list,
+        }
+      }
+    }
   }
+  const url = `https://api.imjad.cn/cloudmusic/?type=search&s=${query}&offset=2&limit=20`;
+  console.log(url);
+  xhr.open('get', url);
+  xhr.send(null);
 }
-export function reducer() {
+export function songStateReducer() {
   return handleActions({
     [FETCH_MUSICS]: (state, action) => ({
       ...state,
+      songs_list: action.payload.songs_list
     })
   }, initalState)
 }
