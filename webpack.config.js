@@ -30,7 +30,6 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     modules: [path.resolve(__dirname, 'node_modules')],
   },
-  target: 'web',
   module: {
     rules: [{
       use: ['babel-loader', 'ts-loader'],
@@ -60,4 +59,7 @@ module.exports = {
     // console输出更友好的模块名称,可以知道热重载时是哪个模块作出了变动
     new webpack.NamedModulesPlugin(),
   ],
+  node: {
+    fs: "empty"
+ }
 }
