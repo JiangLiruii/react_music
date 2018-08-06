@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import SearchBar from './component/search_bar';
-// 引入HMR
-import { hot } from 'react-hot-loader'
 import SongList from './component/songs_list';
-
-class App extends Component {
-  render() {
+import CurrentBar from './component/current_bar';
+export default class App extends React.Component {
+  public render() {
     return (
       <div className="App">
         <SearchBar />
         <SongList />
+        <CurrentBar />
       </div>
     );
   }
 }
-
-export default hot(module)(App)
