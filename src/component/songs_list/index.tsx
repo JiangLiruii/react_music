@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { ReduxStates } from '../../reducer/ReduxStates'
-import SongInfo from '../song_info';
-import songInfoProps from '../../reducer/song_info'
+import SongSingle from '../song_info';
+import {songInfo} from '../../reducer/song_info'
 interface songListProps {
-  songs_list:songInfoProps[],
+  songs_list:songInfo[],
 }
 
 interface songListState {
@@ -18,7 +18,7 @@ class SongList extends React.Component<songListProps, songListState> {
       <div>
         {this.props.songs_list.map((song, index) => {
           return (
-           <SongInfo name={song.name} id={song.id} ar={song.ar} al={song.al} key={index} />
+           <SongSingle songname={song.songname} hash={song['320hash'] || song.hash} singername={song.singername} key={index} />
           )
         })}
       </div>
@@ -28,7 +28,7 @@ class SongList extends React.Component<songListProps, songListState> {
 function map_states_to_props(state:ReduxStates) {
   console.log(state);
   return {
-    songs_list: state.songsList.songs_list,
+    songs_list: state.songStateReducer.songs_list,
   }
 }
 

@@ -1,26 +1,34 @@
 import React from "react";
 import { connect } from 'react-redux';
-import songInfoProps from '../../reducer/song_info'
+import {songInfo, fetchDetailMusicActionCreator} from '../../reducer/song_info'
 import './index.css'
+import request from 'superagent'
+// import getMusicUrl from '../../utils/musicUrl'
 
+interface songInfoProps extends songInfo{
+  fetchDetail:typeof fetchDetailMusicActionCreator,
+}
 interface songInfoState {
 
 }
 
-class songInfo extends React.Component<songInfoProps, songInfoState> {
+class songSingle extends React.Component<songInfoProps, songInfoState> {
   constructor(props:songInfoProps) {
     super(props);
     this._onSongClick = this._onSongClick.bind(this);
   }
   _onSongClick() {
-    
+    const hash = this.props["320hash"] || this.props.hash;
+    request(`http://localhost:3003/music?hash=${hash}`)
+    .then(res => {
+      console.log(res);
+    }, rej => console.error(rej))
   }
   render() {
-    console.log(this.props.ar[this.props.ar.length - 1].name);
     return (
       <div className='song'>
-        <span className='song_name'>{this.props.name}</span>
-        <span className='artist_name'>{this.props.ar[this.props.ar.length - 1].name}</span>
+        <span className='song_name'>{this.props.songname}</span>
+        <span className='artist_name'>{this.props.singername}</span>
         <span onClick={this._onSongClick}>
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI6SURBVGhD7dlL6A1RAMfx67XwiNhQlMfCY+GxshTJVjYKiSxINkqWdqJY2GJBChErsVIWYiM2rFiwYYHyfub9/U7/U7KYe+78555zyvzqU3fmnnM7v+5j5s70unTp0ihjsB338A2/M3uLi1iM6FjiFMKL/MTrjN4jrOUD1iAq2+Ckd/BdmYLcmYdzcF3PMRV948fJCZYoKX5SbsG17XRHXRzsd8KPUwnvxL/ZC4scr7ZqMg0O9MtVYrbA9Z2vtmrSFUmUrkhpSVJkCQ5hYrU1nCQpshTOfYRV7hhCkhbRL5yEr9dmkhb5iC8jj59hA9pK0iIPsAg3R7Z1GbMw2iQvYjzd2Q1fy/2eye6A+5smS5GQ2bgCn9MNLECTZC0SshGegjvmM/ZjPAZJEUXMdJyGv2qOvYsViE0xRULW4jEc/x2HEXMgLa6ImYQTcI48kC5HXYossh5P4ZyvOIAJqEtRRWbiAhwr/77GXh0ppojXAV7BcV7c2IOxiE32IvNxHT6vq5iDQZOtyDjsg+dfPvcCm9A0WYoswx24T2cwA6NJ0iIPcRDhUusTrEMbSVok+IFjmIy2krzIfaxE20lWJPbA1jRJinig8w/VMJOkSIp0RUrL/1fE/wgO9JSixGyF6ztbbfXJGzjY212lxUuyru1ItdUn3j0NrQc5xR525sJLSq4t6oboQnyCE27D211eAcllM3wnQolriI6NX8KJJbFE1B3dv+PN0F3wxuOljPyFOorV6NKlS6P0en8A8n+RUj/SH4gAAAAASUVORK5CYII="/>
         </span>
@@ -38,4 +46,10 @@ class songInfo extends React.Component<songInfoProps, songInfoState> {
   }
 }
 
-export default connect((state) => ({}),{})(songInfo)
+function map_dispatch_to_props() {
+  return {
+    fetchDetail: fetchDetailMusicActionCreator
+  }
+}
+
+export default connect((state) => ({}),map_dispatch_to_props())(songSingle)
