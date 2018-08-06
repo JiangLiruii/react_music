@@ -1,8 +1,8 @@
 import { handleActions } from 'redux-actions';
-import songInfoProps from '../reducer/song_info';
+import {songInfo} from '../reducer/song_info';
 
 export interface songState {
-  songs_list:songInfoProps[],
+  songs_list:songInfo[],
 }
 
 const FETCH_MUSICS = 'music/FETCH_MUSICS'

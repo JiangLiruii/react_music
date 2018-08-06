@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
-import songsList from './song_list'
+import songStateReducer from './song_list'
+import { detailSongStateReducer } from './song_info'
 export default combineReducers({
-  songsList
+  songStateReducer,
+  detailSongStateReducer,
 })
