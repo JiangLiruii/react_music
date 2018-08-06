@@ -1,0 +1,64 @@
+.current_song {
+  flex: 1 1 40%;
+  height: 5vh;
+  display: flex;
+  flex-flow: row nowrap;
+  background: rgba(128, 128, 128, 0.429);
+  justify-content: space-around;
+  align-items: center;
+}
+input[type=range] {
+  /* 去除默认样式 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 10px;
+}
+input[type=range]:focus {
+  /* 去除外边框效果 */
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 10px; /*将轨道设为圆角的*/
+  background: #ee2828;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
+  background: #fff;
+}
+input[name=play_range] {
+  width: 60%;
+}
+input[name=volume] {
+  width: 10%;
+}
+
+.play {
+	background: url('../../img/player.png') no-repeat 0 0;
+	width: 21px;
+	height: 29px;
+}
+
+.pause {
+	background: url('../../img/player.png') no-repeat -30px -2px;
+	width: 17px;
+	height: 24px;
+}
+.before {
+  background: url('../../img/player.png') no-repeat 0 -30px;
+	width: 19px;
+	height: 20px;
+}
+.next {
+  background: url('../../img/player.png') no-repeat 0 -52px;
+	width: 19px;
+	height: 20px;
+}
