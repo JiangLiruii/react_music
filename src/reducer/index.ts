@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
-import songStateReducer from './song_list'
-import { detailSongStateReducer } from './song_info'
+import songState from './song_list';
+import detailSongState from './song_single';
+import currentSong from './current_song';
 export default combineReducers({
-  songStateReducer,
-  detailSongStateReducer,
-})
+  songState,
+  detailSongState,
+  currentSongState:currentSong,
+});

@@ -1,21 +1,20 @@
 import { handleActions } from 'redux-actions';
-import {songInfo} from '../reducer/song_info';
+import { SongInfo } from './song_single';
 
-export interface songState {
-  songs_list:songInfo[],
+export interface SongsState {
+  songs_list:SongInfo[];
 }
 
-const FETCH_MUSICS = 'music/FETCH_MUSICS'
+const FETCH_MUSICS = 'music/FETCH_MUSICS';
 
-const initalState:songState = {
+const initalState:SongsState = {
   songs_list: [],
-}
-
+};
 
 export function fetchMusicsActionCreator(songs_list:string[]) {
   /**
    * 接口说明
-   * type: 
+   * type:
    *  1 song 后接歌曲id 码率 type=song&id=28012031&br=320000
    *  2 lyric 获取歌词
    *  3 comments 获取评论
@@ -35,17 +34,15 @@ export function fetchMusicsActionCreator(songs_list:string[]) {
   return {
     type: FETCH_MUSICS,
     payload: {songs_list},
-  }
+  };
 }
-function songStateReducer() {
-  return handleActions({
-    [FETCH_MUSICS]: (state, action) => {
-      console.log(action);
-      return {
-        ...state,
-        songs_list: action.payload.songs_list,
-      }
-    }
-  }, initalState)
-}
-export default songStateReducer();
+
+export default handleActions({
+  [FETCH_MUSICS]: (state, action) => {
+    console.log(action);
+    return {
+      ...state,
+      songs_list: action.payload.songs_list,
+    };
+  },
+}, initalState);

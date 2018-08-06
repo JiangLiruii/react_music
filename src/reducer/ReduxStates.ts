@@ -1,5 +1,9 @@
-import { songState } from './song_list'
+import { SongsState } from './song_list';
+import { SongInfo } from './song_single';
+import { CurrentSong } from './current_song';
 
 export interface ReduxStates {
-  songStateReducer:songState,
+  songState:SongsState;
+  detailSongState:SongInfo;
+  currentSongState:CurrentSong;
 }
