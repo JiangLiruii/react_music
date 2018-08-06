@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { ReduxStates } from '../../reducer/ReduxStates'
-import {songState} from '../../reducer/song_list'
-import SongInfo, { songInfoProps } from '../song_info';
+import SongInfo from '../song_info';
+import songInfoProps from '../../reducer/song_info'
 interface songListProps {
   songs_list:songInfoProps[],
 }
