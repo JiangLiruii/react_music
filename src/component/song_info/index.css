@@ -1,0 +1,24 @@
+.song {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  width: 40vw;
+  height: 3vh;
+}
+.song span {
+  flex: 1 1 10%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+.song .song_name {
+  flex: 2 0 40%;
+}
+.song .artist_name {
+  flex: 1 1 15%;
+}
+.song span img {
+  width: 3vh;
+  height: 3vh
+}
