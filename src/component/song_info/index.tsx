@@ -1,34 +1,32 @@
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux';
-import {songInfo, fetchDetailMusicActionCreator} from '../../reducer/song_info'
-import './index.css'
-import request from 'superagent'
+import { SongInfo, fetchDetailMusicActionCreator } from '../../reducer/song_single';
+import './index.css';
+import request from 'superagent';
 // import getMusicUrl from '../../utils/musicUrl'
+import { playMusic } from '../../reducer/current_song';
 
-interface songInfoProps extends songInfo{
-  fetchDetail:typeof fetchDetailMusicActionCreator,
-}
-interface songInfoState {
-
+interface SongInfoProps extends SongInfo {
+  playMusic:typeof playMusic;
 }
 
-class songSingle extends React.Component<songInfoProps, songInfoState> {
-  constructor(props:songInfoProps) {
+class SongSingle extends React.Component<SongInfoProps, {}> {
+  constructor(props:SongInfoProps) {
     super(props);
     this._onSongClick = this._onSongClick.bind(this);
   }
-  _onSongClick() {
-    const hash = this.props["320hash"] || this.props.hash;
+  public _onSongClick() {
+    const hash = this.props['320hash'] || this.props.hash;
     request(`http://localhost:3003/music?hash=${hash}`)
-    .then(res => {
-      console.log(res);
-    }, rej => console.error(rej))
+    .then((res) => {
+      this.props.playMusic(res.body.data);
+    }, (rej) => console.error(rej));
   }
-  render() {
+  public render() {
     return (
-      <div className='song'>
-        <span className='song_name'>{this.props.songname}</span>
-        <span className='artist_name'>{this.props.singername}</span>
+      <div className="song">
+        <span className="song_name">{this.props.songname}</span>
+        <span className="artist_name">{this.props.singername}</span>
         <span onClick={this._onSongClick}>
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI6SURBVGhD7dlL6A1RAMfx67XwiNhQlMfCY+GxshTJVjYKiSxINkqWdqJY2GJBChErsVIWYiM2rFiwYYHyfub9/U7/U7KYe+78555zyvzqU3fmnnM7v+5j5s70unTp0ihjsB338A2/M3uLi1iM6FjiFMKL/MTrjN4jrOUD1iAq2+Ckd/BdmYLcmYdzcF3PMRV948fJCZYoKX5SbsG17XRHXRzsd8KPUwnvxL/ZC4scr7ZqMg0O9MtVYrbA9Z2vtmrSFUmUrkhpSVJkCQ5hYrU1nCQpshTOfYRV7hhCkhbRL5yEr9dmkhb5iC8jj59hA9pK0iIPsAg3R7Z1GbMw2iQvYjzd2Q1fy/2eye6A+5smS5GQ2bgCn9MNLECTZC0SshGegjvmM/ZjPAZJEUXMdJyGv2qOvYsViE0xRULW4jEc/x2HEXMgLa6ImYQTcI48kC5HXYossh5P4ZyvOIAJqEtRRWbiAhwr/77GXh0ppojXAV7BcV7c2IOxiE32IvNxHT6vq5iDQZOtyDjsg+dfPvcCm9A0WYoswx24T2cwA6NJ0iIPcRDhUusTrEMbSVok+IFjmIy2krzIfaxE20lWJPbA1jRJinig8w/VMJOkSIp0RUrL/1fE/wgO9JSixGyF6ztbbfXJGzjY212lxUuyru1ItdUn3j0NrQc5xR525sJLSq4t6oboQnyCE27D211eAcllM3wnQolriI6NX8KJJbFE1B3dv+PN0F3wxuOljPyFOorV6NKlS6P0en8A8n+RUj/SH4gAAAAASUVORK5CYII="/>
         </span>
@@ -42,14 +40,14 @@ class songSingle extends React.Component<songInfoProps, songInfoState> {
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJKSURBVGhD7dm7axRRFMfxxUd8YKJdGh+NnQqpI1ipjVgIigji6w+wERUEDTEggoIpgqgQhBAF7cVCVEK0EV9YaqEIPhDBRotAovn+ZA4cxpndmVXujLv3B59iztzZmUOGufeSRkxMTExMTEx2NuFqzekZW2YHftWcnrFlOrKRLzifuJTUjI7tXAh6Frt36UZeqZBkJawuOg4ZPYvdO3gji7ENl/EY7/ART3ET+9CHIqmskT14A39Nlm84gWVoluCNLMUk/NginmE18hK0kR5MwY+bwS0cwhYMYjf0un2FH/sJ65CVoI1chx9zB3kPpvTiIn7CrtE9lyOdYI1shz+vGXgBiuQAfDMjSCdYIy9g5+5hIcrkLOz6H+iHT5BGBmD1WWxA2egj8R72O0fhE6SRM7D6AxXazDDsd+6r4BKkkduw+ikVcnIQmjNW/D76M5thv/NZBZcgjUzD6vtVyMhO2JgLKmRE84iNmYNWBpb/qpE1sDGVNKIJz+qtXq3jqO2rdRpWf6hCm/GfYH3CfYI04j+/eiU2omy0aKz886s8h53TX6XshHgOdv13VDIhKtp3+PPXULSZw/BLFL1i6QRrRBmHH3MX65GXVRiFb+IlKl00KlrG67Xy47SM14R5BLaM16brCtLLeO0e1yIrQRtRtGaagB9bhLa/tdlY+ezCa/hrsmirewxL0CyVNaIswlaM4RHe4gOe4Ab2QpurIqm0kX+Zv2pEe+iTiaGkZnRs50LQs9i9SzdSV93VSMf8WyEmJiYmJqbL0mjMA61WoLA5VCRAAAAAAElFTkSuQmCC"/>
           </span>
       </div>
-    )
+    );
   }
 }
 
 function map_dispatch_to_props() {
   return {
-    fetchDetail: fetchDetailMusicActionCreator
-  }
+    playMusic,
+  };
 }
 
-export default connect((state) => ({}),map_dispatch_to_props())(songSingle)
+export default connect((state) => ({}), map_dispatch_to_props())(SongSingle);
