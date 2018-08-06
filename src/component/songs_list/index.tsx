@@ -1,35 +1,35 @@
-import React, { Component } from 'react'
+import React from 'react';
 import { connect } from 'react-redux';
-import { ReduxStates } from '../../reducer/ReduxStates'
+import { ReduxStates } from '../../reducer/ReduxStates';
 import SongSingle from '../song_info';
-import {songInfo} from '../../reducer/song_info'
-interface songListProps {
-  songs_list:songInfo[],
+import { SongInfo } from '../../reducer/song_single';
+import './index.css';
+interface SongListProps {
+  songs_list:SongInfo[];
 }
 
-interface songListState {
+interface SongListState {
 
 }
 
-
-class SongList extends React.Component<songListProps, songListState> {
-  render() {
+class SongList extends React.Component<SongListProps, SongListState> {
+  public render() {
     return (
-      <div>
+      <div className="songs_list">
         {this.props.songs_list.map((song, index) => {
           return (
-           <SongSingle songname={song.songname} hash={song['320hash'] || song.hash} singername={song.singername} key={index} />
-          )
+           <SongSingle songname={song.songname} hash={song['sqhash'] || song['320hash'] || song.hash} singername={song.singername} key={index} />
+          );
         })}
       </div>
-    )
+    );
   }
 }
 function map_states_to_props(state:ReduxStates) {
   console.log(state);
   return {
-    songs_list: state.songStateReducer.songs_list,
-  }
+    songs_list: state.songState.songs_list,
+  };
 }
 
-export default connect(map_states_to_props, {})(SongList)
+export default connect(map_states_to_props, {})(SongList);
