@@ -48,6 +48,9 @@ module.exports = {
           module: true,
         },
       }]
+    },{
+      test: /\.(jpg|jpeg|gif|png)$/,
+      use: {loader: 'file-loader'}
     }]
   },
   plugins: [
