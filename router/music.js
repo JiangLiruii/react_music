@@ -5,8 +5,7 @@ module.exports = (req, res) => {
   request('http://www.kugou.com/yy/index.php?r=play/getdata&hash='+ encodeURIComponent(hash)).then(
     result => {
       const data = JSON.parse(result.text).data;
-      res.send(JSON.parse(result.text).data);
-      console.log(info);
+      res.send(data);
     },
     err => console.log(err)
   );

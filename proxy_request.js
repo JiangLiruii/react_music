@@ -41,7 +41,6 @@ const UnusualRouteFileMap = {
 };
 
 // 简化 路由 导出方式, 由这里统一对 router 目录中导出的路由做包装, 路由实际对应的文件只专注做它该做的事情, 不用重复写样板代码
-const { createWebAPIRequest, request } = require("./src/utils/util");
 const Wrap = fn => (req, res) => fn(req, res);
 
 // 同步读取 router 目录中的js文件, 根据命名规则, 自动注册路由
