@@ -30,8 +30,10 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     this._onVolumeChange = this._onVolumeChange.bind(this);
   }
   private _onPlayChange(e:any) {
+    const currentTime = e.target.value;
+    this.playAudio.current.currentTime = currentTime;
     this.setState({
-      currentTime: e.target.value,
+      currentTime,
     });
   }
 
@@ -49,6 +51,11 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       audio.play();
       this.setState({
         playing:true,
+      });
+    };
+    audio.ontimeupdate = () => {
+      this.setState({
+        currentTime: audio.currentTime,
       });
     };
   }
@@ -76,7 +83,7 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
           onClick={this._onPlayClick}></span>
         <span className="next"></span>
         <div className="bar_right">
-          <input type="range" name="play_range" min="0" max={this.props.timelength} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
+          <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
           <span id="song_name">{this.props.song_name || '暂无歌曲'}</span>
         </div>
         <div
