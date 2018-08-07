@@ -64,6 +64,9 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         currentTime: audio.currentTime,
       });
     };
+    audio.onended = () => {
+      this._onNextClick();
+    };
   }
   private _onPlayClick() {
     /**
