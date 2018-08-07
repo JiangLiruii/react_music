@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ReduxStates } from '../../reducer/ReduxStates';
-import SongSingle from '../song_info';
+import SongSingle from '../song_single';
 import { SongInfo } from '../../reducer/song_single';
 import './index.css';
 interface SongListProps {

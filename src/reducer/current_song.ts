@@ -11,6 +11,7 @@ export interface CurrentSong {
   bitrate:number;
   timelength:number;
   hash:string;
+  index:number;
 }
 
 const initalState = {
@@ -24,6 +25,7 @@ const initalState = {
   bitrate:0,
   timelength:100,
   hash:'',
+  index:0,
 };
 const PLAY_MUSIC = 'music/PLAY_MUSIC';
 export function playMusic(data) {

@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 
 import { ReduxStates } from '../../reducer/ReduxStates';
 import { CurrentSong } from '../../reducer/current_song';
+import { SongInfo } from '../../reducer/song_single';
+import { fetchSong, getSongHash } from '../song_single';
+import { playMusic } from '../../reducer/current_song';
 import './index.css';
 interface CurrentBarProps extends CurrentSong {
-
+  song_list:SongInfo[];
+  playMusic:typeof playMusic;
 }
 interface CurrentBarState {
   currentTime:number;
@@ -28,6 +32,8 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     this._onPlayChange = this._onPlayChange.bind(this);
     this._onPlayClick = this._onPlayClick.bind(this);
     this._onVolumeChange = this._onVolumeChange.bind(this);
+    this._onNextClick = this._onNextClick.bind(this);
+    this._onPrevClick = this._onPrevClick.bind(this);
   }
   private _onPlayChange(e:any) {
     const currentTime = e.target.value;
@@ -74,15 +80,25 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       });
     }
   }
+  private _onPrevClick() {
+    const song = this.props.song_list[this.props.index - 1];
+    const hash = getSongHash(song);
+    fetchSong(hash, this.props.playMusic, this.props.index - 1);
+  }
+  private _onNextClick() {
+    const song = this.props.song_list[this.props.index + 1];
+    const hash = getSongHash(song);
+    fetchSong(hash, this.props.playMusic, this.props.index + 1);
+  }
   public render() {
     return (
       <div className="current_song">
         <audio src={this.props.play_url} autoPlay={false} ref={this.playAudio}></audio>
-        <span className="before"></span>
+        <span className="before" onClick={this._onPrevClick}></span>
         <span className={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
           onClick={this._onPlayClick}></span>
-        <span className="next"></span>
-        <div className="bar_right">
+        <span className="next" onClick={this._onNextClick}></span>
+        <div className="audio_bar">
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
           <span id="song_name">{this.props.song_name || '暂无歌曲'}</span>
         </div>
@@ -103,7 +119,14 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
 function map_states_to_props(state:ReduxStates) {
   return {
     ...state.currentSongState,
+    song_list: state.songState.songs_list,
   };
 }
 
-export default connect(map_states_to_props, {})(CurrentBar);
+function map_dispatch_to_props() {
+  return {
+    playMusic,
+  };
+}
+
+export default connect(map_states_to_props, map_dispatch_to_props())(CurrentBar);
