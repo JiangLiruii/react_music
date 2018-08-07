@@ -38,6 +38,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     });
   }
   private _search(e:any) {
+    e.preventDefault();
     request.get(`http://localhost:3003/search?keyword=${this.state.searchInput}`)
     .then((res) => {
       this.props.fetchMusic(res.body);
@@ -56,9 +57,11 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   }
   public render() {
     return (
-      <div className="search_bar">
-        <input type="text" value={this.state.searchInput} onBlur={this._onBlur} onClick={this._onClick} onChange={this._onChange}/>
-        <button type="submit" onClick={this._search}>sousssffff</button>
+      <div className="search bar">
+        <form>
+          <input type="text" value={this.state.searchInput} onBlur={this._onBlur} onClick={this._onClick} onChange={this._onChange} />
+          <button type="submit" onClick={this._search}></button>
+        </form>
       </div>
     );
   }
