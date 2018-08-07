@@ -28,6 +28,6 @@
   flex: 0 0 5%;
 }
 .song .song_index.active {
-  background: url('../../img/wave.gif') 10px 5px no-repeat;
+  background: url('../../img/wave.gif') 20px 5px no-repeat;
   text-indent: -99px;
 }

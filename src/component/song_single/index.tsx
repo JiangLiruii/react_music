@@ -13,17 +13,26 @@ interface SongInfoProps extends SongInfo {
   current_song_hash:string;
 }
 
+export function fetchSong(hash, action_fetch_song, index) {
+  request(`http://localhost:3003/music?hash=${hash}`)
+  .then((res) => {
+    action_fetch_song({
+      ...res.body,
+      index,
+    });
+  }, (rej) => console.error(rej));
+}
+export function getSongHash(obj) {
+  return obj['sqhash'] || obj['320hash'] || obj.hash;
+}
 class SongSingle extends React.Component<SongInfoProps, {}> {
   constructor(props:SongInfoProps) {
     super(props);
     this._onSongClick = this._onSongClick.bind(this);
   }
   public _onSongClick() {
-    const hash = this.props['320hash'] || this.props.hash;
-    request(`http://localhost:3003/music?hash=${hash}`)
-    .then((res) => {
-      this.props.playMusic(res.body);
-    }, (rej) => console.error(rej));
+    const hash = getSongHash(this.props);
+    fetchSong(hash, this.props.playMusic, this.props.index);
   }
   public render() {
     return (
