@@ -26,7 +26,6 @@ class SongList extends React.Component<SongListProps, SongListState> {
   }
 }
 function map_states_to_props(state:ReduxStates) {
-  console.log(state);
   return {
     songs_list: state.songState.songs_list,
   };

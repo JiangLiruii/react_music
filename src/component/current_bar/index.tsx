@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 
 import { ReduxStates } from '../../reducer/ReduxStates';
@@ -11,6 +11,7 @@ interface CurrentBarState {
   currentTime:number;
   currentVolume:number;
   playing:boolean;
+  volume_show:boolean;
 }
 
 class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
@@ -21,17 +22,25 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       currentTime: 0,
       currentVolume: 100,
       playing:false,
+      volume_show: false,
     };
     this.playAudio = React.createRef();
     this._onPlayChange = this._onPlayChange.bind(this);
     this._onPlayClick = this._onPlayClick.bind(this);
     this._onVolumeChange = this._onVolumeChange.bind(this);
   }
-  private _onPlayChange() {
-
+  private _onPlayChange(e:any) {
+    this.setState({
+      currentTime: e.target.value,
+    });
   }
 
-  private _onVolumeChange() {
+  private _onVolumeChange(e:any) {
+    const target_volume = e.target.value;
+    this.playAudio.current.volume = target_volume / 100;
+    this.setState({
+      currentVolume: target_volume,
+    });
 
   }
   public componentDidMount() {
@@ -44,22 +53,41 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     };
   }
   private _onPlayClick() {
-    this.state.playing ? this.playAudio.current.pause() : this.playAudio.current.play();
-    this.setState({
-      playing: !this.state.playing,
-    });
+    /**
+     * 0 = HAVE_NOTHING - 没有关于音频/视频是否就绪的信息
+     * 1 = HAVE_METADATA - 关于音频/视频就绪的元数据
+     * 2 = HAVE_CURRENT_DATA - 关于当前播放位置的数据是可用的，但没有足够的数据来播放下一帧/毫秒
+     * 3 = HAVE_FUTURE_DATA - 当前及至少下一帧的数据是可用的
+     * 4 = HAVE_ENOUGH_DATA - 可用数据足以开始播放
+     */
+    if (this.playAudio.current.readyState >= 3) {
+      this.state.playing ? this.playAudio.current.pause() : this.playAudio.current.play();
+      this.setState({
+        playing: !this.state.playing,
+      });
+    }
   }
   public render() {
-    console.log(this.playAudio.current && this.playAudio.current.paused);
     return (
       <div className="current_song">
         <audio src={this.props.play_url} autoPlay={false} ref={this.playAudio}></audio>
         <span className="before"></span>
-        <span className={this.playAudio.current && (this.state.playing ? 'pause' : 'play')}
+        <span className={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
           onClick={this._onPlayClick}></span>
         <span className="next"></span>
-        <input type="range" name="play_range" min="0" max={this.props.timelength} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
-        <input type="range" name="volume" min="0" max="100" step="1" value={this.state.currentVolume} onChange={this._onVolumeChange} />
+        <div className="bar_right">
+          <input type="range" name="play_range" min="0" max={this.props.timelength} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
+          <span id="song_name">{this.props.song_name || '暂无歌曲'}</span>
+        </div>
+        <div
+          onMouseOver = {() => this.setState({volume_show:true})}
+          onMouseLeave = {() => this.setState({volume_show:false})}>
+          <div id={this.state.currentVolume === 0 ? 'volume_mute_icon' : 'volume_icon'}
+            onClick={() => this.setState({
+              volume_show: !this.state.volume_show,
+            })}></div>
+          <input style={{opacity: (this.state.volume_show ? 1 : 0)}} type="range" name="volume" min="0" max="100" step="1" value={this.state.currentVolume} onChange={this._onVolumeChange} />
+        </div>
       </div>
     );
   }

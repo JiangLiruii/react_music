@@ -7,6 +7,9 @@
   justify-content: space-around;
   align-items: center;
 }
+.current_song >span {
+  flex: 0 0 5%;
+}
 input[type=range] {
   /* 去除默认样式 */
   -webkit-appearance: none;
@@ -35,16 +38,21 @@ input[type=range]::-webkit-slider-thumb {
   background: #fff;
 }
 input[name=play_range] {
-  width: 60%;
+  flex: 10 0 30%;
 }
 input[name=volume] {
-  width: 10%;
+  position: absolute;
+  transform: rotate(-90deg);
+  width: 4vw;
+  height: 1vh;
+  right: -4px;
+  top: 2px;
+  transition: opacity 0.5s;
 }
-
 .play {
 	background: url('../../img/player.png') no-repeat 0 0;
 	width: 21px;
-	height: 29px;
+  height: 29px;
 }
 
 .pause {
@@ -61,4 +69,29 @@ input[name=volume] {
   background: url('../../img/player.png') no-repeat 0 -52px;
 	width: 19px;
 	height: 20px;
+}
+.bar_right {
+  flex: 0 0 60%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: flex-end;
+  align-self: flex-end;
+}
+#song_name {
+  flex:0 0 100%;
+  font-size: 10px;
+}
+#volume_icon {
+  background: url('../../img/player.png') no-repeat 0 -144px;
+	width: 24px;
+	height: 20px;
+}
+#volume_mute_icon {
+  background: url('../../img/player.png') no-repeat 0 -182px;
+	width: 26px;
+	height: 20px;
+}
+.hide {
+  display: none;
 }

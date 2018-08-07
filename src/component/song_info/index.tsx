@@ -22,11 +22,10 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     const hash = this.props['320hash'] || this.props.hash;
     request(`http://localhost:3003/music?hash=${hash}`)
     .then((res) => {
-      this.props.playMusic(res.body.data);
+      this.props.playMusic(res.body);
     }, (rej) => console.error(rej));
   }
   public render() {
-    console.log(this.props.hash, this.props.current_song_hash);
     return (
       <div className="song">
         <span className={'song_index ' + (this.props.hash === this.props.current_song_hash ? 'active' : '')}>{this.props.index + 1}</span>
