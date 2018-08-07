@@ -2,8 +2,10 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+  background-color: rgba(128, 128, 128, 0.456);
   /* width: 100%; */
   height: 3vh;
+  color: #FFF;
 }
 .song span {
   flex: 1 1 10%;
@@ -21,4 +23,11 @@
 .song span img {
   width: 3vh;
   height: 3vh
+}
+.song .song_index {
+  flex: 0 0 5%;
+}
+.song .song_index.active {
+  background: url('../../img/wave.gif') 10px 5px no-repeat;
+  text-indent: -99px;
 }

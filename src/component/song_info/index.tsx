@@ -5,9 +5,12 @@ import './index.css';
 import request from 'superagent';
 // import getMusicUrl from '../../utils/musicUrl'
 import { playMusic } from '../../reducer/current_song';
+import { ReduxStates } from '../../reducer/ReduxStates';
 
 interface SongInfoProps extends SongInfo {
   playMusic:typeof playMusic;
+  index:number;
+  current_song_hash:string;
 }
 
 class SongSingle extends React.Component<SongInfoProps, {}> {
@@ -23,8 +26,10 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     }, (rej) => console.error(rej));
   }
   public render() {
+    console.log(this.props.hash, this.props.current_song_hash);
     return (
       <div className="song">
+        <span className={'song_index ' + (this.props.hash === this.props.current_song_hash ? 'active' : '')}>{this.props.index + 1}</span>
         <span className="song_name">{this.props.songname}</span>
         <span className="artist_name">{this.props.singername}</span>
         <span onClick={this._onSongClick}>
@@ -43,11 +48,15 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     );
   }
 }
-
+function map_states_to_props(state:ReduxStates) {
+  return {
+    current_song_hash: state.currentSongState.hash,
+  };
+}
 function map_dispatch_to_props() {
   return {
     playMusic,
   };
 }
 
-export default connect((state) => ({}), map_dispatch_to_props())(SongSingle);
+export default connect(map_states_to_props, map_dispatch_to_props())(SongSingle);
