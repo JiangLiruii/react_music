@@ -1,7 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const devMode = process.env.NODE_ENV !== 'production';
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 module.exports = {
   mode: 'development',
   entry: [
@@ -40,22 +43,42 @@ module.exports = {
       test: /\.(jsx|js)$/,
       exclude: /node_modules/,
     },{
+      test: /\.scss$/,
+      // css-loader会遍历css文件，找到所有的url(...)并且处理。style-loader会把所有的样式插入到你页面的一个style tag中。
+      use: [
+        devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+            localIdentName: '[path][name]__[local]--[hash:base64:5]',
+            importLoaders: 1,
+          },
+        }, 
+        'sass-loader',
+      ]
+    },{
+      test: /\.(jpg|jpeg|gif|png)$/,
+      use: {loader: 'file-loader'}
+    }, {
       test: /\.css$/,
       // css-loader会遍历css文件，找到所有的url(...)并且处理。style-loader会把所有的样式插入到你页面的一个style tag中。
       use: ['style-loader',{
         loader: 'css-loader',
         options: {
-          module: true,
+          modules: true,
+          localIdentName: '[path][name]__[local]--[hash:base64:5]',
         },
       }]
-    },{
-      test: /\.(jpg|jpeg|gif|png)$/,
-      use: {loader: 'file-loader'}
     }]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: __dirname + '/public/index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     }),
     // 开启全局HMR
     new webpack.HotModuleReplacementPlugin(),
@@ -65,5 +88,15 @@ module.exports = {
   node: {
     fs: "empty",
     tls:"empty"
- }
+ },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
+  },
 }
