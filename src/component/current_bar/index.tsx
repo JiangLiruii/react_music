@@ -6,7 +6,7 @@ import { CurrentSong } from '../../reducer/current_song';
 import { SongInfo } from '../../reducer/song_single';
 import { fetchSong, getSongHash } from '../song_single';
 import { playMusic } from '../../reducer/current_song';
-import './index.css';
+import CSSModules from 'react-css-modules';
 interface CurrentBarProps extends CurrentSong {
   song_list:SongInfo[];
   playMusic:typeof playMusic;
@@ -18,6 +18,7 @@ interface CurrentBarState {
   volume_show:boolean;
 }
 
+@CSSModules(require('./index.scss'), {allowMultiple: true})
 class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
   private playAudio:any;
   constructor(props:CurrentBarProps) {
@@ -95,20 +96,20 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
   }
   public render() {
     return (
-      <div className="current_song">
+      <div styleName="current_song">
         <audio src={this.props.play_url} autoPlay={false} ref={this.playAudio}></audio>
-        <span className="before" onClick={this._onPrevClick}></span>
-        <span className={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
+        <span styleName="before" onClick={this._onPrevClick}></span>
+        <span styleName={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
           onClick={this._onPlayClick}></span>
-        <span className="next" onClick={this._onNextClick}></span>
-        <div className="audio_bar">
+        <span styleName="next" onClick={this._onNextClick}></span>
+        <div styleName="audio_bar">
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
-          <span id="song_name">{this.props.song_name || '暂无歌曲'}</span>
+          <span styleName="song_name">{this.props.song_name || '暂无歌曲'}</span>
         </div>
         <div
           onMouseOver = {() => this.setState({volume_show:true})}
           onMouseLeave = {() => this.setState({volume_show:false})}>
-          <div id={this.state.currentVolume === 0 ? 'volume_mute_icon' : 'volume_icon'}
+          <div styleName={this.state.currentVolume === 0 ? 'volume_mute_icon' : 'volume_icon'}
             onClick={() => this.setState({
               volume_show: !this.state.volume_show,
             })}></div>

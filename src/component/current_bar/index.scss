@@ -80,16 +80,17 @@ input[name=volume] {
   align-items: flex-end;
   align-self: flex-end;
 }
-#song_name {
+.song_name {
   flex:0 0 100%;
   font-size: 10px;
+  text-align: center;
 }
-#volume_icon {
+.volume_icon {
   background: url('../../img/player.png') no-repeat 0 -144px;
 	width: 24px;
 	height: 20px;
 }
-#volume_mute_icon {
+.volume_mute_icon {
   background: url('../../img/player.png') no-repeat 0 -182px;
 	width: 26px;
 	height: 20px;

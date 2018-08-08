@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { ReduxStates } from '../../reducer/ReduxStates';
 import SongSingle from '../song_single';
 import { SongInfo } from '../../reducer/song_single';
-import './index.css';
+import CSSModules from 'react-css-modules';
 interface SongListProps {
   songs_list:SongInfo[];
 }
@@ -12,10 +12,11 @@ interface SongListState {
 
 }
 
+@CSSModules(require('./index.scss'), {allowMultiple: true})
 class SongList extends React.Component<SongListProps, SongListState> {
   public render() {
     return (
-      <div className="songs_list">
+      <div styleName="songs_list">
         {this.props.songs_list.map((song, index) => {
           return (
            <SongSingle index={index} songname={song.songname} hash={song['sqhash'] || song['320hash'] || song.hash} singername={song.singername} key={index} />

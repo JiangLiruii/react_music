@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { SongInfo, fetchDetailMusicActionCreator } from '../../reducer/song_single';
-import './index.css';
 import request from 'superagent';
 // import getMusicUrl from '../../utils/musicUrl'
 import { playMusic } from '../../reducer/current_song';
 import { ReduxStates } from '../../reducer/ReduxStates';
+import CSSModules from 'react-css-modules';
 
 interface SongInfoProps extends SongInfo {
   playMusic:typeof playMusic;
@@ -25,6 +25,7 @@ export function fetchSong(hash, action_fetch_song, index) {
 export function getSongHash(obj) {
   return obj['sqhash'] || obj['320hash'] || obj.hash;
 }
+@CSSModules(require('./index.scss'), {allowMultiple: true})
 class SongSingle extends React.Component<SongInfoProps, {}> {
   constructor(props:SongInfoProps) {
     super(props);
@@ -36,10 +37,10 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
   }
   public render() {
     return (
-      <div className="song">
-        <span className={'song_index ' + (this.props.hash === this.props.current_song_hash ? 'active' : '')}>{this.props.index + 1}</span>
-        <span className="song_name">{this.props.songname}</span>
-        <span className="artist_name">{this.props.singername}</span>
+      <div styleName="song">
+        <span styleName={'song_index ' + (this.props.hash === this.props.current_song_hash ? 'active' : '')}>{this.props.index + 1}</span>
+        <span styleName="song_name">{this.props.songname}</span>
+        <span styleName="artist_name">{this.props.singername}</span>
         <span onClick={this._onSongClick}>
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI6SURBVGhD7dlL6A1RAMfx67XwiNhQlMfCY+GxshTJVjYKiSxINkqWdqJY2GJBChErsVIWYiM2rFiwYYHyfub9/U7/U7KYe+78555zyvzqU3fmnnM7v+5j5s70unTp0ihjsB338A2/M3uLi1iM6FjiFMKL/MTrjN4jrOUD1iAq2+Ckd/BdmYLcmYdzcF3PMRV948fJCZYoKX5SbsG17XRHXRzsd8KPUwnvxL/ZC4scr7ZqMg0O9MtVYrbA9Z2vtmrSFUmUrkhpSVJkCQ5hYrU1nCQpshTOfYRV7hhCkhbRL5yEr9dmkhb5iC8jj59hA9pK0iIPsAg3R7Z1GbMw2iQvYjzd2Q1fy/2eye6A+5smS5GQ2bgCn9MNLECTZC0SshGegjvmM/ZjPAZJEUXMdJyGv2qOvYsViE0xRULW4jEc/x2HEXMgLa6ImYQTcI48kC5HXYossh5P4ZyvOIAJqEtRRWbiAhwr/77GXh0ppojXAV7BcV7c2IOxiE32IvNxHT6vq5iDQZOtyDjsg+dfPvcCm9A0WYoswx24T2cwA6NJ0iIPcRDhUusTrEMbSVok+IFjmIy2krzIfaxE20lWJPbA1jRJinig8w/VMJOkSIp0RUrL/1fE/wgO9JSixGyF6ztbbfXJGzjY212lxUuyru1ItdUn3j0NrQc5xR525sJLSq4t6oboQnyCE27D211eAcllM3wnQolriI6NX8KJJbFE1B3dv+PN0F3wxuOljPyFOorV6NKlS6P0en8A8n+RUj/SH4gAAAAASUVORK5CYII="/>
         </span>

@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchMusicsActionCreator } from '../../reducer/song_list';
+import CSSModules from 'react-css-modules';
 import request from 'superagent';
-import './index.css';
-
 interface SearchBarProps {
   fetchMusic:typeof fetchMusicsActionCreator;
   musics:any[];
@@ -12,7 +11,7 @@ interface SearchBarStates {
   searchInput:string;
   need_clear:boolean;
 }
-
+@CSSModules(require('./index.scss'), {allowMultiple: true})
 class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   constructor(props:SearchBarProps) {
     super(props);
@@ -57,7 +56,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   }
   public render() {
     return (
-      <div className="search bar">
+      <div styleName="search bar">
         <form>
           <input type="text" value={this.state.searchInput} onBlur={this._onBlur} onClick={this._onClick} onChange={this._onChange} />
           <button type="submit" onClick={this._search}></button>
