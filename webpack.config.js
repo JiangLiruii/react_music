@@ -11,7 +11,7 @@ module.exports = {
     // 开启react代码的模块热替换（HMR）, 必不可少
     'react-hot-loader/patch',
     // 指定域名与端口
-    `webpack-dev-server/client?http://localhost:${process.env.PORT || 3001}`,
+    `webpack-dev-server/client?http://0.0.0.0:${process.env.PORT || 3001}`,
     // 为HMR打包好运行代码, only表示只在更新成功后进行HMR
     'webpack/hot/only-dev-server',
     // app入口文件

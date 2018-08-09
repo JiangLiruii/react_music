@@ -11,6 +11,6 @@ module.exports = (req, res) => {
       const info = JSON.parse(result.text).data.info;
       res.send(info);
     },
-    err => console.log(err)
+    err => res.send(err)
   );
 }
