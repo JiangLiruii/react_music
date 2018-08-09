@@ -9,9 +9,7 @@
   justify-content: space-around;
   align-items: center;
 }
-.current_song >span {
-  flex: 0 0 2%;
-}
+
 input[type=range] {
   /* 去除默认样式 */
   -webkit-appearance: none;
@@ -55,6 +53,7 @@ input[name=volume] {
 	background: url('../../img/player.png') no-repeat 0 0;
 	width: 21px;
   height: 29px;
+  zoom: 0.8;
 }
 
 .pause {
