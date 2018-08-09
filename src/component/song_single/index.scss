@@ -1,10 +1,10 @@
 .song {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   background-color: rgba(128, 128, 128, 0.456);
   /* width: 100%; */
-  height: 3vh;
+  min-height: 3vh;
   color: #FFF;
 }
 .song span {
@@ -15,7 +15,7 @@
 }
 
 .song .song_name {
-  flex: 2 0 40%;
+  flex: 2 0 35%;
 }
 .song .artist_name {
   flex: 1 1 15%;
@@ -25,9 +25,10 @@
   height: 3vh
 }
 .song .song_index {
-  flex: 0 0 5%;
+  flex: 0 0 8%;
+  text-align: center
 }
 .song .song_index.active {
-  background: url('../../img/wave.gif') 20px 5px no-repeat;
+  background: url('../../img/wave.gif') 10px 5px no-repeat;
   text-indent: -99px;
 }

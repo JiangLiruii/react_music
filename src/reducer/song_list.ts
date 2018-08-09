@@ -14,13 +14,13 @@ const initalState:SongsState = {
   currentMusicState:{name:'', page:1, pagesize:20},
 };
 
-interface Query {
+export interface Query {
   name:string;
   page?:number;
   pagesize?:number;
 }
 
-export function fetchMusicsAsyncActionCreator(query:Query) {
+export function fetchMusicsAsyncActionCreator(query:Query, origin_songs_list:SongInfo[]=[]) {
   /**
    * 接口说明
    * type:
@@ -42,11 +42,15 @@ export function fetchMusicsAsyncActionCreator(query:Query) {
    */
   const {name, page, pagesize} = query;
   return (dispatch) => {
-    dispatch(changeCurrentMusicState(query));
-    request.get(`http://localhost:3003/search?name=${name}&page=${page}&pagesize=${pagesize}`)
-  .then((res) => {
-    dispatch(fetchMusicSyncActionCreator(res.body));
-  });
+    request.get(`http://192.168.20.91:3003/search?name=${name}&page=${page}&pagesize=${pagesize}`).withCredentials()
+    .then((res) => {
+      if (origin_songs_list.length > 0) {
+        dispatch(fetchMusicSyncActionCreator(origin_songs_list.concat(res.body)));
+      } else {
+        dispatch(fetchMusicSyncActionCreator(res.body));
+      }
+      dispatch(changeCurrentMusicState(query));
+    }, (err) => {console.log(err); } );
   };
 }
 function changeCurrentMusicState(currentMusicState:Query) {

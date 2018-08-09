@@ -37,7 +37,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   }
   private _search(e:any) {
     e.preventDefault();
-    this.props.fetchMusic({name: this.state.searchInput, page:2, pagesize:10, });
+    this.props.fetchMusic({name: this.state.searchInput, page: 1, pagesize: 30});
   }
   private _onClick() {
     this.state.need_clear && this.setState({
