@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchMusicsActionCreator } from '../../reducer/song_list';
+import { fetchMusicsAsyncActionCreator } from '../../reducer/song_list';
 import CSSModules from 'react-css-modules';
-import request from 'superagent';
 interface SearchBarProps {
-  fetchMusic:typeof fetchMusicsActionCreator;
+  fetchMusic:typeof fetchMusicsAsyncActionCreator;
   musics:any[];
 }
 interface SearchBarStates {
@@ -38,10 +37,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   }
   private _search(e:any) {
     e.preventDefault();
-    request.get(`http://localhost:3003/search?keyword=${this.state.searchInput}`)
-    .then((res) => {
-      this.props.fetchMusic(res.body);
-    });
+    this.props.fetchMusic({name: this.state.searchInput, page:2, pagesize:10, });
   }
   private _onClick() {
     this.state.need_clear && this.setState({
@@ -72,7 +68,7 @@ function map_states_to_props(ReduxStates) {
 }
 function map_dispatch_to_props() {
   return {
-    fetchMusic: fetchMusicsActionCreator,
+    fetchMusic: fetchMusicsAsyncActionCreator,
   };
 }
 export default connect(map_states_to_props, map_dispatch_to_props())(SearchBar);
