@@ -26,7 +26,6 @@ interface SongDetail {
 }
 const FETCH_MUSIC = 'music/FETCH_MUSIC';
 export function fetchDetailMusicActionCreator(song_id:number) {
-  console.log(song_id);
   return {
     type:FETCH_MUSIC,
     payload: {song_id},
