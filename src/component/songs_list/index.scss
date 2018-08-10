@@ -2,8 +2,11 @@
   flex: 1 1 60%;
   display: flex;
   flex-flow: column;
-  height: 50vh;
+  height: 60vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
-  transition: all 0.5s;
+  justify-content: space-between;
+  .loading_div {
+    transition: all 0.5s ease-in-out;
+  }
 }
