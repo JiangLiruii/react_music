@@ -68,8 +68,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
       <div styleName="songs_list" ref={this._songs_list}
         onScroll={this._onScroll}
         onTouchStart={this._onTouchStart}
-        onTouchMove={this._onTouchMove}
-      >
+          onTouchMove={this._onTouchMove}>
         <div style={{
           opacity: this.props.is_loading ? 1 : 0,
         }} styleName="loading_div">

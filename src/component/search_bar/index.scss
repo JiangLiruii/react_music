@@ -28,7 +28,7 @@ button {
   position: absolute;
 }
 .bar {
-  background: #7BA7AB;
+  background: #46AB92;
   /* flex:0 0 100%; */
 }
 
@@ -39,14 +39,17 @@ button {
 .bar input {
   width: 250px;
   border-radius: 42px;
-  border: 2px solid #324B4E;
-  background: #F9F0DA;
+  border: 2px solid #92C435;
+  background: #37B862;
   transition: .3s linear;
   float: right;
+  box-shadow: 7px 5px 20px #7D3351;
+  color: rgb(127, 138, 46);
 }
 
 .bar input:focus {
   width: 300px;
+  box-shadow: none; 
 }
 
 .bar button {
@@ -58,5 +61,5 @@ button {
 .bar button:before {
   content: "\f002";
   font-family: FontAwesome;
-  color: #324b4e;
+  color: rgb(127, 138, 46);
 }
