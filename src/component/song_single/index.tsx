@@ -8,9 +8,10 @@ import { ReduxStates } from '../../reducer/ReduxStates';
 import CSSModules from 'react-css-modules';
 
 interface SongInfoProps extends SongInfo {
-  playMusic:typeof playMusic;
+  play_music:typeof playMusic;
   index:number;
   current_song_hash:string;
+  is_play_list?:boolean;
 }
 
 export function fetchSong(hash, action_fetch_song, index) {
@@ -33,7 +34,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
   }
   public _onSongClick() {
     const hash = getSongHash(this.props);
-    fetchSong(hash, this.props.playMusic, this.props.index);
+    fetchSong(hash, this.props.play_music, this.props.index);
   }
   public render() {
     const is_now = this.props.hash === this.props.current_song_hash;
@@ -43,7 +44,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
         <span styleName="song_name">{this.props.songname}</span>
         <span styleName="artist_name">{this.props.singername}</span>
         <span styleName={'play ' + (is_now ? 'now' : '')} onClick={this._onSongClick}></span>
-        <span styleName="add_play_list"></span>
+        <span styleName={this.props.is_play_list ? 'delete_from_list' : 'add_play_list'}></span>
         <span styleName="download"></span>
       </div>
     );
@@ -56,7 +57,7 @@ function map_states_to_props(state:ReduxStates) {
 }
 function map_dispatch_to_props() {
   return {
-    playMusic,
+    play_music: playMusic,
   };
 }
 

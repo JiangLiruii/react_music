@@ -26,19 +26,21 @@
     &.now{
       background: url('../../img/icon_list_menu.png') no-repeat -80px -200px;
     }
-    transform:none;
   }
   &.add_play_list {
     background: url('../../img/icon_list_menu.png') no-repeat -80px -80px;
     max-width: 36px;
     height: 36px;
-    transform:none;
+  }
+  &.delete_from_list {
+    background: url('../../img/icon_list_menu.png') no-repeat -80px -160px;
+    max-width: 36px;
+    height: 36px;
   }
   &.download {
     background: url('../../img/icon_list_menu.png') no-repeat -80px -120px;
     max-width: 36px;
     height: 36px;
-    transform:none;
   }
 }
 
