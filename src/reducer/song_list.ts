@@ -6,15 +6,18 @@ export interface SongsState {
   songs_list:SongInfo[];
   currentMusicState:Query;
   isLoading:boolean;
+  favo_song_list:SongInfo[];
 }
 
 const FETCH_MUSICS = 'music/FETCH_MUSICS';
 const CHANGE_STATE = 'music/CHANGE_STATE';
 const CHANGE_LOAD_STATE = 'music/CHANGE_LOAD_STATE';
+const ADD_FAVO_MUSIC_LIST = 'music/ADD_FAVO_MUSIC_LIST';
 const initalState:SongsState = {
   songs_list: [],
-  currentMusicState:{name:'', page:1, pagesize:20},
-  isLoading:false,
+  currentMusicState: {name:'', page:1, pagesize:20},
+  isLoading: false,
+  favo_song_list: [],
 };
 
 export interface Query {
@@ -51,10 +54,17 @@ function changeCurrentMusicState(currentMusicState:Query) {
     payload: {currentMusicState},
   };
 }
-export function fetchMusicSyncActionCreator(songs_list) {
+export function fetchMusicSyncActionCreator(songs_list:SongInfo[]) {
   return {
     type: FETCH_MUSICS,
     payload: {songs_list},
+  };
+}
+
+export function addMusicToFavoList(song:SongInfo) {
+  return {
+    type: ADD_FAVO_MUSIC_LIST,
+    payload: {song},
   };
 }
 
@@ -69,10 +79,16 @@ export default handleActions({
     ...state,
     currentMusicState: action.payload.currentMusicState,
   }),
-  [CHANGE_LOAD_STATE]: (state, action) => {
+  [CHANGE_LOAD_STATE]: (state, action) => ({
+    ...state,
+    isLoading: action.payload.isLoading,
+  }),
+  [ADD_FAVO_MUSIC_LIST]: (state, action:any) => {
+    const new_favo_list = state.favo_song_list;
+    new_favo_list.push(action.payload.song);
     return {
       ...state,
-      isLoading: action.payload.isLoading,
+      favo_song_list:new_favo_list,
     };
   },
 }, initalState);
