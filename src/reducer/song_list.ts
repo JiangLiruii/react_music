@@ -13,6 +13,7 @@ const FETCH_MUSICS = 'music/FETCH_MUSICS';
 const CHANGE_STATE = 'music/CHANGE_STATE';
 const CHANGE_LOAD_STATE = 'music/CHANGE_LOAD_STATE';
 const ADD_FAVO_MUSIC_LIST = 'music/ADD_FAVO_MUSIC_LIST';
+const DELETE_FROM_FAVO_MUSIC = 'music/DELETE_FROM_FAVO_MUSIC';
 const initalState:SongsState = {
   songs_list: [],
   currentMusicState: {name:'', page:1, pagesize:20},
@@ -30,7 +31,7 @@ export function fetchMusicsAsyncActionCreator(query:Query, origin_songs_list:Son
   const {name, page, pagesize} = query;
   return (dispatch) => {
     dispatch(changeLoadState(true));
-    request.get(`http://192.168.20.91:3003/search?name=${name}&page=${page}&pagesize=${pagesize}`).withCredentials()
+    request.get(`http://localhost:3003/search?name=${name}&page=${page}&pagesize=${pagesize}`).withCredentials()
     .then((res) => {
       if (origin_songs_list.length > 0) {
         dispatch(fetchMusicSyncActionCreator(origin_songs_list.concat(res.body)));
@@ -64,7 +65,13 @@ export function fetchMusicSyncActionCreator(songs_list:SongInfo[]) {
 export function addMusicToFavoList(song:SongInfo) {
   return {
     type: ADD_FAVO_MUSIC_LIST,
-    payload: {song},
+    payload: song,
+  };
+}
+export function deleteMusicFromFavoList(index:number) {
+  return {
+    type: DELETE_FROM_FAVO_MUSIC,
+    payload: index,
   };
 }
 
@@ -85,10 +92,18 @@ export default handleActions({
   }),
   [ADD_FAVO_MUSIC_LIST]: (state, action:any) => {
     const new_favo_list = state.favo_song_list;
-    new_favo_list.push(action.payload.song);
+    new_favo_list.push(action.payload);
     return {
       ...state,
       favo_song_list:new_favo_list,
+    };
+  },
+  [DELETE_FROM_FAVO_MUSIC]: (state, action:any) => {
+    const new_songs_list = state.favo_song_list;
+    new_songs_list.splice(action.payload, 1);
+    return {
+      ...state,
+      favo_song_list: new_songs_list,
     };
   },
 }, initalState);
