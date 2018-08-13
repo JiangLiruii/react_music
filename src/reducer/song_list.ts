@@ -91,7 +91,7 @@ export default handleActions({
     isLoading: action.payload.isLoading,
   }),
   [ADD_FAVO_MUSIC_LIST]: (state, action:any) => {
-    const new_favo_list = state.favo_song_list;
+    const new_favo_list = JSON.parse(JSON.stringify(state.favo_song_list));
     new_favo_list.push(action.payload);
     return {
       ...state,
@@ -99,7 +99,7 @@ export default handleActions({
     };
   },
   [DELETE_FROM_FAVO_MUSIC]: (state, action:any) => {
-    const new_songs_list = state.favo_song_list;
+    const new_songs_list = JSON.parse(JSON.stringify(state.favo_song_list));
     new_songs_list.splice(action.payload, 1);
     return {
       ...state,

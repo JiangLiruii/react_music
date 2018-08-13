@@ -18,6 +18,7 @@ interface SongRate {
 export interface SongInfo {
   songname:string;
   singername:string;
+  sqhash?:string;
   '320hash'?:string;
   hash:string;
 }

@@ -76,7 +76,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
         </div>
         {this.props.songs_list.map((song, index) => {
           return (
-           <SongSingle index={index} songname={song.songname} hash={song['sqhash'] || song['320hash'] || song.hash} singername={song.singername} key={index} />
+           <SongSingle song={song} index={index} key={index} is_play_list={false} />
           );
         })}
       </div>

@@ -8,14 +8,16 @@ interface PlayListProps {
 }
 
 class PlayList extends React.Component<PlayListProps, {}> {
+  public shouldComponentUpdate(nextProps) {
+    console.log(nextProps);
+    return nextProps.play_list.length !== this.props.play_list.length;
+  }
   public render() {
     return (
       <div>
       {this.props.play_list.map((song, index) =>
       (
-        <SongSingle index={index} songname={song.songname}
-        hash={song['sqhash'] || song['320hash'] || song.hash}
-        singername={song.singername} key={index} is_play_list={true}/>
+        <SongSingle index={index} song={song} key={index} is_play_list={true}/>
       ))}
       </div>
     );
