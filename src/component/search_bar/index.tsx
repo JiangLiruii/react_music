@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchMusicsAsyncActionCreator } from '../../reducer/song_list';
 import CSSModules from 'react-css-modules';
+import { changeNavIndex } from '../../reducer/navigator';
 interface SearchBarProps {
   fetchMusic:typeof fetchMusicsAsyncActionCreator;
+  changeNavIndex:typeof changeNavIndex;
   musics:any[];
 }
 interface SearchBarStates {
@@ -37,6 +39,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   }
   private _search(e:any) {
     e.preventDefault();
+    this.props.changeNavIndex(1);
     this.props.fetchMusic({name: this.state.searchInput, page: 1, pagesize: 20});
   }
   private _onClick() {
@@ -69,6 +72,7 @@ function map_states_to_props(ReduxStates) {
 function map_dispatch_to_props() {
   return {
     fetchMusic: fetchMusicsAsyncActionCreator,
+    changeNavIndex,
   };
 }
 export default connect(map_states_to_props, map_dispatch_to_props())(SearchBar);
