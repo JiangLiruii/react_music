@@ -1,7 +1,6 @@
 .song {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
+  flex-flow: row nowrap;
   background-color: #37B862;
   align-items: center;
   /* width: 100%; */
@@ -14,14 +13,13 @@
   }
 }
 .song span {
-  flex: 1 1 10%;
+  flex: 0 0 36px;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
-  margin-left: 5vw;
+  margin-left: 10px;
   &.play {
     background: url('../../img/icon_list_menu.png') no-repeat -80px 0;
-    max-width: 36px;
     height: 36px;
     &.now{
       background: url('../../img/icon_list_menu.png') no-repeat -80px -200px;
@@ -29,17 +27,14 @@
   }
   &.add_play_list {
     background: url('../../img/icon_list_menu.png') no-repeat -80px -80px;
-    max-width: 36px;
     height: 36px;
   }
   &.delete_from_list {
     background: url('../../img/icon_list_menu.png') no-repeat -80px -160px;
-    max-width: 36px;
     height: 36px;
   }
   &.download {
     background: url('../../img/icon_list_menu.png') no-repeat -80px -120px;
-    max-width: 36px;
     height: 36px;
   }
 }

@@ -37,15 +37,14 @@ class SongList extends React.Component<SongListProps, SongListState> {
     const scroll_height = e.target.scrollHeight;
     const client_height = e.target.clientHeight;
     if (scroll_height - scroll_top - client_height === 0) {
-      console.log(scroll_height - scroll_top - client_height);
       const current_state = this.props.current_music_state;
       const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
-      this.props.fetchMore(next_music_state, this.props.songs_list);
+      this.props.fetchMore(next_music_state);
     }
   }
   private _onTouchMove(e:any) {
     if (e.target.offsetHeight < e.target.scrollHeight) {
-      // 自定义一个属性
+      // customize one property
       e._isScroller = true;
     }
     if (!e._isScroller) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import CSSModule from 'react-css-modules';
 import SongSingle from '../song_single';
 import { ReduxStates } from '../../reducer/ReduxStates';
 import { connect } from 'react-redux';
@@ -7,6 +8,7 @@ interface PlayListProps {
   play_list:any[];
 }
 
+@CSSModule(require('./index.scss'))
 class PlayList extends React.Component<PlayListProps, {}> {
   public shouldComponentUpdate(nextProps) {
     console.log(nextProps);
@@ -14,7 +16,7 @@ class PlayList extends React.Component<PlayListProps, {}> {
   }
   public render() {
     return (
-      <div>
+      <div styleName="play_list">
       {this.props.play_list.map((song, index) =>
       (
         <SongSingle index={index} song={song} key={index} is_play_list={true}/>
