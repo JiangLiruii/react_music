@@ -6,42 +6,43 @@ import SongLyrics from './component/lyric';
 import CurrentBar from './component/current_bar';
 import Nav from './component/navigator';
 import CSSModule from 'react-css-modules';
+import { connect } from 'react-redux';
+import { ReduxStates } from './reducer/ReduxStates';
+import { changeNavIndex } from './reducer/navigator';
 
-/**
- * current_show:
- *  1 play_list
- *  2 search_list
- *  3 lyrics and song img
- */
-interface AppStates {
-  current_show:number;
+interface AppProps {
+  current_nav_index:number;
+  changeNavIndex:typeof changeNavIndex;
 }
 
 @CSSModule(require('./App.css'))
-export default class App extends React.Component<{}, AppStates> {
+class App extends React.Component<AppProps, {}> {
   public constructor(props:any) {
     super(props);
-    this.state = {
-      current_show: 1,
-    };
     this._onNavClick = this._onNavClick.bind(this);
   }
   private _onNavClick(index:number) {
-    this.setState({
-      current_show: index,
-    });
+    this.props.changeNavIndex(index);
   }
   public render() {
-    const current_show = this.state.current_show;
+    const current_show = this.props.current_nav_index;
     return (
       <div styleName="App">
         <SearchBar />
         <Nav clickFunc={this._onNavClick}/>
-        {current_show === 1 && <PlayList />}
-        {current_show === 2 && <SongList />}
-        {current_show === 3 && <SongLyrics />}
+        {current_show === 0 && <PlayList />}
+        {current_show === 1 && <SongList />}
+        {current_show === 2 && <SongLyrics />}
         <CurrentBar />
       </div>
     );
   }
 }
+
+function map_states_to_props(state:ReduxStates) {
+  return {
+    current_nav_index: state.currentNavIndex.index,
+  };
+}
+
+export default connect(map_states_to_props, {changeNavIndex})(App);
