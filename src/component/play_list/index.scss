@@ -1,11 +1,11 @@
 .play_list {
   flex: 1 1 60%;
   display: flex;
-  flex-flow: column;
+  flex-flow: column nowrap;
+  align-content: flex-start;
   height: 60vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
-  justify-content: space-between;
   .loading_div {
     transition: all 0.5s ease-in-out;
   }

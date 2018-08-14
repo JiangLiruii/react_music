@@ -5,8 +5,10 @@
   height: 60vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
-  justify-content: space-between;
+  position: relative;
   .loading_div {
+    height: 100%;
+    width: 100%;
     transition: all 0.5s ease-in-out;
   }
   &::-webkit-scrollbar {

@@ -3,14 +3,16 @@
   flex-flow: row nowrap;
   background-color: #37B862;
   align-items: center;
+  min-height: 37px;
   /* width: 100%; */
-  min-height: 5vh;
   color: rgb(127, 138, 46);
   transition: transform 0.5s ease-in-out;
   transform:none;
   &:hover{
     transform: translateX(-20px);
   }
+  border: rgb(127, 138, 46) solid 1px;
+  border-top: none;
 }
 .song span {
   flex: 0 0 36px;
