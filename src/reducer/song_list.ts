@@ -27,17 +27,13 @@ export interface Query {
   pagesize?:number;
 }
 
-export function fetchMusicsAsyncActionCreator(query:Query, origin_songs_list:SongInfo[]=[]) {
+export function fetchMusicsAsyncActionCreator(query:Query) {
   const {name, page, pagesize} = query;
   return (dispatch) => {
     dispatch(changeLoadState(true));
     request.get(`http://localhost:3003/search?name=${name}&page=${page}&pagesize=${pagesize}`).withCredentials()
     .then((res) => {
-      if (origin_songs_list.length > 0) {
-        dispatch(fetchMusicSyncActionCreator(origin_songs_list.concat(res.body)));
-      } else {
-        dispatch(fetchMusicSyncActionCreator(res.body));
-      }
+      dispatch(fetchMusicSyncActionCreator({songs_list: res.body, page}));
       dispatch(changeCurrentMusicState(query));
       dispatch(changeLoadState(false));
     }, (err) => {console.log(err); } );
@@ -55,10 +51,10 @@ function changeCurrentMusicState(currentMusicState:Query) {
     payload: {currentMusicState},
   };
 }
-export function fetchMusicSyncActionCreator(songs_list:SongInfo[]) {
+export function fetchMusicSyncActionCreator(payload:any) {
   return {
     type: FETCH_MUSICS,
-    payload: {songs_list},
+    payload,
   };
 }
 
@@ -76,10 +72,18 @@ export function deleteMusicFromFavoList(index:number) {
 }
 
 export default handleActions({
-  [FETCH_MUSICS]: (state, action) => {
+  [FETCH_MUSICS]: (state, action:any) => {
+    // when scroll more
+    let origin = JSON.parse(JSON.stringify(state.songs_list));
+    if (action.payload.page !== 1) {
+      origin = origin.concat(action.payload.songs_list);
+    } else {
+      origin = action.payload.songs_list;
+    }
+
     return {
       ...state,
-      songs_list: action.payload.songs_list,
+      songs_list: origin,
     };
   },
   [CHANGE_STATE]: (state, action) => ({
