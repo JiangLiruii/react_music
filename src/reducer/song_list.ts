@@ -18,7 +18,7 @@ const initalState:SongsState = {
   songs_list: [],
   currentMusicState: {name:'', page:1, pagesize:20},
   isLoading: false,
-  favo_song_list: [],
+  favo_song_list: JSON.parse(window.localStorage.getItem('favo_song_list')) || [],
 };
 
 export interface Query {

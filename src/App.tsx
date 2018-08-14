@@ -13,6 +13,7 @@ import { changeNavIndex } from './reducer/navigator';
 interface AppProps {
   current_nav_index:number;
   changeNavIndex:typeof changeNavIndex;
+  favo_song_list:any[];
 }
 
 @CSSModule(require('./App.css'))
@@ -23,6 +24,11 @@ class App extends React.Component<AppProps, {}> {
   }
   private _onNavClick(index:number) {
     this.props.changeNavIndex(index);
+  }
+  public componentDidMount() {
+    window.onbeforeunload = () => {
+      window.localStorage.setItem('favo_song_list', JSON.stringify(this.props.favo_song_list));
+    };
   }
   public render() {
     const current_show = this.props.current_nav_index;
@@ -42,6 +48,7 @@ class App extends React.Component<AppProps, {}> {
 function map_states_to_props(state:ReduxStates) {
   return {
     current_nav_index: state.currentNavIndex.index,
+    favo_song_list: state.songState.favo_song_list,
   };
 }
 
