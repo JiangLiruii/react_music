@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { ReduxStates } from '../../reducer/ReduxStates';
 import { CurrentSong } from '../../reducer/current_song';
 import { SongInfo } from '../../reducer/song_single';
-import { fetchSong, getSongHash } from '../song_single';
-import { playMusic } from '../../reducer/current_song';
+import { playAsyncMusic } from '../../reducer/current_song';
 import CSSModules from 'react-css-modules';
 interface CurrentBarProps extends CurrentSong {
   song_list:SongInfo[];
-  playMusic:typeof playMusic;
+  play_music:typeof playAsyncMusic;
 }
 interface CurrentBarState {
   currentTime:number;
@@ -86,13 +85,11 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
   }
   private _onPrevClick() {
     const song = this.props.song_list[this.props.index - 1];
-    const hash = getSongHash(song);
-    fetchSong(hash, this.props.playMusic, this.props.index - 1);
+    this.props.play_music(song, this.props.index - 1);
   }
   private _onNextClick() {
     const song = this.props.song_list[this.props.index + 1];
-    const hash = getSongHash(song);
-    fetchSong(hash, this.props.playMusic, this.props.index + 1);
+    this.props.play_music(song, this.props.index + 1);
   }
   public render() {
     return (
@@ -129,7 +126,7 @@ function map_states_to_props(state:ReduxStates) {
 
 function map_dispatch_to_props() {
   return {
-    playMusic,
+    play_music: playAsyncMusic,
   };
 }
 

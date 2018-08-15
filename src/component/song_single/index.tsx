@@ -3,32 +3,19 @@ import { connect } from 'react-redux';
 import { SongInfo } from '../../reducer/song_single';
 import request from 'superagent';
 // import getMusicUrl from '../../utils/musicUrl'
-import { playMusic } from '../../reducer/current_song';
+import { playAsyncMusic } from '../../reducer/current_song';
 import { ReduxStates } from '../../reducer/ReduxStates';
 import { addMusicToFavoList, deleteMusicFromFavoList } from '../../reducer/song_list';
 import CSSModules from 'react-css-modules';
 
 interface SongInfoProps {
   song:SongInfo;
-  play_music:typeof playMusic;
+  play_music:typeof playAsyncMusic;
   index:number;
   current_song_hash:string;
   is_play_list?:boolean;
   add_favo:typeof addMusicToFavoList;
   delete_favo:typeof deleteMusicFromFavoList;
-}
-
-export function fetchSong(hash, action_fetch_song, index) {
-  request(`http://localhost:3003/music?hash=${hash}`)
-  .then((res) => {
-    action_fetch_song({
-      ...res.body,
-      index,
-    });
-  }, (rej) => console.error(rej));
-}
-export function getSongHash(obj) {
-  return obj.sqhash || obj['320hash'] || obj.hash;
 }
 @CSSModules(require('./index.scss'), {allowMultiple: true})
 class SongSingle extends React.Component<SongInfoProps, {}> {
@@ -38,8 +25,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     this._onAddClick = this._onAddClick.bind(this);
   }
   public _onSongClick() {
-    const hash = getSongHash(this.props.song);
-    fetchSong(hash, this.props.play_music, this.props.index);
+    this.props.play_music(this.props.song, this.props.index);
   }
   private _onAddClick() {
     if (this.props.is_play_list) {
@@ -70,7 +56,7 @@ function map_states_to_props(state:ReduxStates) {
 }
 function map_dispatch_to_props() {
   return {
-    play_music: playMusic,
+    play_music: playAsyncMusic,
     add_favo: addMusicToFavoList,
     delete_favo: deleteMusicFromFavoList,
   };
