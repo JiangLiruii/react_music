@@ -1,4 +1,6 @@
 import { handleActions } from 'redux-actions';
+import { SongInfo } from './song_single';
+import request from 'superagent';
 
 export interface CurrentSong {
   play_url:string;
@@ -28,13 +30,37 @@ const initalState = {
   index:0,
 };
 const PLAY_MUSIC = 'music/PLAY_MUSIC';
+function promise_wrap(hash) {
+  return new Promise((resolve, reject) => {
+    request.get(`http://localhost:3003/music?hash=${hash}`)
+    .then((res) => {
+      const data = res.body;
+      if (data.play_url) {
+        resolve(data);
+      }
+    });
+  });
+}
+export function playAsyncMusic(data:SongInfo, index) {
+  const sqhash = data.sqhash;
+  const hash320 = data['320hash'];
+  const hash = data.hash;
+  return (dispatch) => {
+    Promise.race([promise_wrap(sqhash), promise_wrap(hash320), promise_wrap(hash)])
+    .then((res) => {
+      dispatch(playMusic({
+        ...res,
+        index,
+      }));
+    });
+  };
+}
 export function playMusic(data) {
   return {
     type: PLAY_MUSIC,
     payload: {...data},
   };
 }
-
 export default handleActions({
   [PLAY_MUSIC]: (state, action) => {
     console.log(action);
