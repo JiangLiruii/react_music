@@ -1,18 +1,17 @@
 .song {
   display: flex;
   flex-flow: row nowrap;
-  background-color: #37B862;
+  background-color: rgba(55, 184, 98, 0.607);
   align-items: center;
   min-height: 37px;
   /* width: 100%; */
-  color: rgb(127, 138, 46);
+  color: rgb(162, 176, 59);
   transition: transform 0.5s ease-in-out;
   transform:none;
   &:hover{
     transform: translateX(-20px);
   }
-  border: rgb(127, 138, 46) solid 1px;
-  border-top: none;
+  margin-top: 1vh;
 }
 .song span {
   flex: 0 0 36px;
