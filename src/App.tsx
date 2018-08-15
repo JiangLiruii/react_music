@@ -16,7 +16,7 @@ interface AppProps {
   favo_song_list:any[];
 }
 
-@CSSModule(require('./App.css'))
+@CSSModule(require('./App.scss'))
 class App extends React.Component<AppProps, {}> {
   public constructor(props:any) {
     super(props);
@@ -36,9 +36,11 @@ class App extends React.Component<AppProps, {}> {
       <div styleName="App">
         <SearchBar />
         <Nav clickFunc={this._onNavClick}/>
-        {current_show === 0 && <PlayList />}
-        {current_show === 1 && <SongList />}
-        {current_show === 2 && <SongLyrics />}
+        <div styleName="list">
+          {current_show === 0 && <PlayList />}
+          {current_show === 1 && <SongList />}
+          {current_show === 2 && <SongLyrics />}
+        </div>
         <CurrentBar />
       </div>
     );

@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-flow: row wrap;
+  color: rgb(127, 138, 46);
+  .list {
+    width: 100%;
+    height: 60vh;
+    background: url(http://p799phkik.bkt.clouddn.com/music.png) no-repeat center/cover;
+  }
+}
