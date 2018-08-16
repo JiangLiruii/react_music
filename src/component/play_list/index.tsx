@@ -11,7 +11,6 @@ interface PlayListProps {
 @CSSModule(require('./index.scss'))
 class PlayList extends React.Component<PlayListProps, {}> {
   public shouldComponentUpdate(nextProps) {
-    console.log(nextProps);
     return nextProps.play_list.length !== this.props.play_list.length;
   }
   public render() {
@@ -19,7 +18,7 @@ class PlayList extends React.Component<PlayListProps, {}> {
       <div styleName="play_list">
       {this.props.play_list.map((song, index) =>
       (
-        <SongSingle index={index} song={song} key={index} is_play_list={true}/>
+        <SongSingle index={index} song={song} key={index} is_play_list={ true } />
       ))}
       </div>
     );
