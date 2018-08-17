@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { SongInfo } from '../../reducer/song_single';
 import request from 'superagent';
 // import getMusicUrl from '../../utils/musicUrl'
-import { playAsyncMusic } from '../../reducer/current_song';
+import { playAsyncMusic, CurrentSong } from '../../reducer/current_song';
 import { ReduxStates } from '../../reducer/ReduxStates';
 import { addMusicToFavoList, deleteMusicFromFavoList } from '../../reducer/song_list';
 import CSSModules from 'react-css-modules';
@@ -12,7 +12,7 @@ interface SongInfoProps {
   song:SongInfo;
   play_music:typeof playAsyncMusic;
   index:number;
-  current_song_hash:string;
+  current_song:CurrentSong;
   is_play_list?:boolean;
   add_favo:typeof addMusicToFavoList;
   delete_favo:typeof deleteMusicFromFavoList;
@@ -36,7 +36,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     }
   }
   public render() {
-    const is_now = this.props.song.hash === this.props.current_song_hash;
+    const is_now = this.props.index === this.props.current_song.index;
     return (
       <div styleName="song">
         <span styleName={'song_index ' + (is_now ? 'active' : '')}>{this.props.index + 1}</span>
@@ -51,7 +51,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
 }
 function map_states_to_props(state:ReduxStates) {
   return {
-    current_song_hash: state.currentSongState.hash,
+    current_song: state.currentSongState,
   };
 }
 function map_dispatch_to_props() {
