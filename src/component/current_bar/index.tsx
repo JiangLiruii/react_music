@@ -67,8 +67,8 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         currentTime: audio.currentTime,
       });
     };
-    audio.onended = () => {
-      this._onNextClick();
+    audio.onended = (e) => {
+      this._onNextClick(e);
     };
   }
   private _onPlayClick() {
@@ -98,9 +98,43 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     const song = this.props.song_list[this.props.index - 1];
     this.props.play_music(song, this.props.index - 1);
   }
-  private _onNextClick() {
-    const song = this.props.song_list[this.props.index + 1];
-    this.props.play_music(song, this.props.index + 1);
+  private _onNextClick(e) {
+    let index = this.props.index;
+    const list = this.props.song_list;
+    const origin_song = list[index];
+    const play = this.props.play_music;
+    let next_song = list[index + 1];
+    if (next_song && e.currentTarget.tagName === 'SPAN') {
+      return play(next_song, index + 1);
+    }
+    console.log(this.state.mode);
+    switch (this.state.mode) {
+      case 'sequence': {
+        next_song && play(next_song, index + 1);
+        break;
+      }
+      case 'loop_one': {
+        play(origin_song, index);
+        break;
+      }
+      case 'loop_list': {
+        if (!next_song) {
+          next_song = list[0];
+          index = 0;
+        }
+        play(next_song, index);
+        break;
+      }
+      case 'shaffle': {
+        let next_index = Math.ceil(Math.random() * (list.length - 1));
+        if (next_index === index) {
+          next_index -= 1;
+        }
+        next_song = list[next_index];
+        play(next_song, next_index);
+        break;
+      }
+    }
   }
   public render() {
     return (
