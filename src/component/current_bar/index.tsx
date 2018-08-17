@@ -15,6 +15,7 @@ interface CurrentBarState {
   currentVolume:number;
   playing:boolean;
   volume_show:boolean;
+  mode:string;
 }
 
 @CSSModules(require('./index.scss'), {allowMultiple: true})
@@ -27,11 +28,13 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       currentVolume: 100,
       playing:false,
       volume_show: false,
+      mode: 'sequence',
     };
     this.playAudio = React.createRef();
     this._onPlayChange = this._onPlayChange.bind(this);
     this._onPlayClick = this._onPlayClick.bind(this);
     this._onVolumeChange = this._onVolumeChange.bind(this);
+    this._onModeClick = this._onModeClick.bind(this);
     this._onNextClick = this._onNextClick.bind(this);
     this._onPrevClick = this._onPrevClick.bind(this);
   }
@@ -83,6 +86,14 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       });
     }
   }
+  private _onModeClick() {
+    const mode_array = ['sequence', 'shaffle', 'loop_list', 'loop_one'];
+    const current_index = mode_array.indexOf(this.state.mode);
+    const next_index = current_index === 3 ? 0 : current_index + 1;
+    this.setState({
+      mode: mode_array[next_index],
+    });
+  }
   private _onPrevClick() {
     const song = this.props.song_list[this.props.index - 1];
     this.props.play_music(song, this.props.index - 1);
@@ -103,6 +114,9 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
           <span styleName="song_name">{this.props.song_name || '暂无歌曲'}</span>
         </div>
+        <div styleName="mode">
+          <div styleName={this.state.mode} onClick={this._onModeClick}></div>
+        </div>
         <div
           onMouseOver = {() => this.setState({volume_show:true})}
           onMouseLeave = {() => this.setState({volume_show:false})}>
@@ -110,8 +124,8 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
             onClick={() => this.setState({
               volume_show: !this.state.volume_show,
             })}></div>
-          <input style={{opacity: (this.state.volume_show ? 1 : 0)}} type="range" name="volume" min="0" max="100" step="1" value={this.state.currentVolume} onChange={this._onVolumeChange} />
         </div>
+        <input style={{opacity: (this.state.volume_show ? 1 : 0)}} type="range" name="volume" min="0" max="100" step="1" value={this.state.currentVolume} onChange={this._onVolumeChange} />
       </div>
     );
   }
@@ -120,7 +134,7 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
 function map_states_to_props(state:ReduxStates) {
   return {
     ...state.currentSongState,
-    song_list: state.songState.songs_list,
+    song_list: state.songState.favo_song_list,
   };
 }
 
