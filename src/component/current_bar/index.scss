@@ -1,6 +1,5 @@
+$player: url('../../img/player.png') no-repeat;
 .current_song {
-  position: fixed;
-  bottom: 1vh;
   width: 100%;
   height: 5vh;
   min-height: 36px;
@@ -44,31 +43,56 @@ input[name=play_range] {
 input[name=volume] {
   position: absolute;
   transform: rotate(-90deg);
-  width: 5vw;
-  height: 1vh;
-  right: -4px;
-  top: 2px;
+  width: 50px;
+  right: -15px;
+  bottom: 45px;
   transition: opacity 0.5s;
+  flex: 0 2 5%;
 }
+.mode {
+  width: 26px;
+  height: 25px;
+  .sequence {
+    background: $player 0 -260px;
+    width: 21px;
+    height: 20px;
+  }
+  .loop_one {
+    background: $player 0 -232px;
+    width: 26px;
+    height: 25px;
+  }
+  .loop_list {
+    background: $player 0 -205px;
+    width: 26px;
+    height: 25px;
+  }
+  .shaffle {
+    background: $player 0 -74px;
+    width: 26px;
+    height: 20px;
+  }
+}
+
 .play {
-	background: url('../../img/player.png') no-repeat 0 0;
+	background: $player 0 0;
 	width: 21px;
   height: 29px;
   zoom: 0.8;
 }
 
 .pause {
-	background: url('../../img/player.png') no-repeat -30px -2px;
+	background: $player -30px -2px;
 	width: 17px;
 	height: 24px;
 }
 .before {
-  background: url('../../img/player.png') no-repeat 0 -30px;
+  background: $player 0 -30px;
 	width: 19px;
 	height: 20px;
 }
 .next {
-  background: url('../../img/player.png') no-repeat 0 -52px;
+  background: $player 0 -52px;
 	width: 19px;
 	height: 20px;
 }
@@ -86,12 +110,12 @@ input[name=volume] {
   text-align: center;
 }
 .volume_icon {
-  background: url('../../img/player.png') no-repeat 0 -144px;
+  background: $player 0 -144px;
 	width: 24px;
 	height: 20px;
 }
 .volume_mute_icon {
-  background: url('../../img/player.png') no-repeat 0 -182px;
+  background: $player 0 -182px;
 	width: 26px;
 	height: 20px;
 }
