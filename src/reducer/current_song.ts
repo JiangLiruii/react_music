@@ -27,7 +27,7 @@ const initalState = {
   bitrate:0,
   timelength:100,
   hash:'',
-  index:0,
+  index:-1,
 };
 const PLAY_MUSIC = 'music/PLAY_MUSIC';
 function promise_wrap(hash) {
@@ -37,22 +37,50 @@ function promise_wrap(hash) {
       const data = res.body;
       if (data.play_url) {
         resolve(data);
+      } else {
+        reject('no_url');
       }
     });
   });
 }
-export function playAsyncMusic(data:SongInfo, index) {
+export function downloadMusic(data:SongInfo, index) {
+  const sqhash = data.sqhash;
+  const hash320 = data['320hash'];
+  const hash = data.hash;
+}
+export function playAsyncMusic(data:SongInfo, index=-1) {
   const sqhash = data.sqhash;
   const hash320 = data['320hash'];
   const hash = data.hash;
   return (dispatch) => {
-    Promise.race([promise_wrap(sqhash), promise_wrap(hash320), promise_wrap(hash)])
-    .then((res) => {
+    const success = index === -1 ? (res) => {
+      if (!res) {
+        return;
+      }
+      console.log(res.play_url);
+      const song_name = res.song_name;
+      fetch(`http://localhost:3003/download?url=${res.play_url}`).then((res) => {
+        console.log(res);
+        const b = res.blob();
+        const bURL = URL.createObjectURL(b);
+        const a = document.createElement('a');
+        a.href = bURL;
+        a.download = song_name;
+        a.click();
+      });
+    } : (res) => {
+      if (!res) {
+        return;
+      }
       dispatch(playMusic({
         ...res,
         index,
       }));
-    });
+    };
+    promise_wrap(sqhash)
+    .then(success, () => promise_wrap(hash320))
+    .then(success, () => promise_wrap(hash))
+    .then(success, (e) => console.error(e));
   };
 }
 export function playMusic(data) {

@@ -23,6 +23,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     super(props);
     this._onSongClick = this._onSongClick.bind(this);
     this._onAddClick = this._onAddClick.bind(this);
+    this._onDownload = this._onDownload.bind(this);
   }
   public _onSongClick() {
     this.props.play_music(this.props.song, this.props.index);
@@ -35,8 +36,12 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
       this.props.add_favo(this.props.song);
     }
   }
+  private _onDownload() {
+    this.props.play_music(this.props.song);
+  }
   public render() {
     const is_now = this.props.index === this.props.current_song.index;
+    console.log(this.props.current_song.bitrate);
     return (
       <div styleName="song">
         <span styleName={'song_index ' + (is_now ? 'active' : '')}>{this.props.index + 1}</span>
@@ -44,7 +49,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
         <span styleName="artist_name">{this.props.song.singername}</span>
         <span styleName={'play ' + (is_now ? 'now' : '')} onClick={this._onSongClick}></span>
         <span styleName={this.props.is_play_list ? 'delete_from_list' : 'add_play_list'} onClick={this._onAddClick}></span>
-        <span styleName="download"></span>
+        <span styleName="download" onClick={this._onDownload}></span>
       </div>
     );
   }

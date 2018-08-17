@@ -16,9 +16,9 @@ This is my first music app based on react framework
 ## 待添加
 - 当前歌曲歌词
 - 当前播放粒子动态效果
-- 歌曲下载
-- 播放模式的选择
-- 当前歌曲比特率的显示
+- 歌曲下载 
+- 播放模式的选择 --> finished
+- 当前歌曲比特率的显示 --> finished
 - 搜索智能提示
 - 已搜索列表
 
