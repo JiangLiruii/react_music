@@ -19,6 +19,17 @@ This is my first music app based on react framework
 - 歌曲下载
 - 播放模式的选择
 - 当前歌曲比特率的显示
+- 搜索智能提示
+- 已搜索列表
+
+## 优化: 可使用酷我音乐API, 音质较高, 以下是示例:
+```js
+// 搜索歌曲url, type可以为songname, artist, album, rn是获取多少条
+`http://search.kuwo.cn/r.s?${type}=${encodeURIComponent(input_value)}&ft=music&rformat=json&encoding=utf8&rn=5&vipver=MUSIC_8.0.3.1`
+// 拿到MUSIC_ID之后便可获取歌曲网址
+`http://antiserver.kuwo.cn/anti.s?response=url&rid=${music_id}&format=mp3`
+```
+
 
 # 0.1.0 --> 18.08.07
 
