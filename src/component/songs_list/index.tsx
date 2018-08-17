@@ -28,6 +28,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
     // this._onTouchStart = this._onTouchStart.bind(this);
   }
   public componentWillMount() {
+    console.log('before', this.props.songs_list);
     this._songs_list = React.createRef();
     this._footer = React.createRef();
   }
@@ -72,8 +73,10 @@ class SongList extends React.Component<SongListProps, SongListState> {
   // }
 
   public render() {
+    const need_show = this.props.songs_list.length > 0;
     return (
       <div styleName="songs_list" ref={this._songs_list}>
+        {!need_show && <div styleName="go_to_search">快去搜索歌曲吧!</div>}
         <div style={{
           opacity: this.props.is_loading ? 1 : 0,
         }} styleName="loading_div">
@@ -84,7 +87,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
            <SongSingle song={song} index={index} key={index} is_play_list={false} />
           );
         })}
-        <div className="list_footer" ref={this._footer}>上拉刷新</div>
+        <div className="list_footer" style={{display: need_show ? 'block' : 'none'}}ref={this._footer}>上拉刷新</div>
       </div>
     );
   }
