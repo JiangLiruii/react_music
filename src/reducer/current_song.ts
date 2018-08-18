@@ -43,31 +43,31 @@ function promise_wrap(hash) {
     });
   });
 }
-export function downloadMusic(data:SongInfo, index) {
-  const sqhash = data.sqhash;
-  const hash320 = data['320hash'];
-  const hash = data.hash;
-}
 export function playAsyncMusic(data:SongInfo, index=-1) {
   const sqhash = data.sqhash;
   const hash320 = data['320hash'];
   const hash = data.hash;
   return (dispatch) => {
+    // index = -1 则为download, 否则为播放.
     const success = index === -1 ? (res) => {
       if (!res) {
         return;
       }
       console.log(res.play_url);
       const song_name = res.song_name;
-      fetch(`http://localhost:3003/download?url=${res.play_url}`).then((res) => {
-        console.log(res);
-        const b = res.blob();
-        const bURL = URL.createObjectURL(b);
-        const a = document.createElement('a');
-        a.href = bURL;
-        a.download = song_name;
-        a.click();
-      });
+      const a = document.createElement('a');
+      a.href = res.play_url;
+      a.download = song_name;
+      a.click();
+      // request(`http://localhost:3003/download?url=${res.play_url}`).then((res) => {
+      //   console.log(res);
+        // const b = res.blob();
+        // const bURL = URL.createObjectURL(b);
+        // const a = document.createElement('a');
+        // a.href = bURL;
+        // a.download = song_name;
+        // a.click();
+      // });
     } : (res) => {
       if (!res) {
         return;
