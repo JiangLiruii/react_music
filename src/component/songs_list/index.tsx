@@ -34,7 +34,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
   }
   public componentDidMount() {
     const io = new IntersectionObserver((entries) => {
-      if (entries[0].intersectionRatio <= 0.5) {return; }
+      if (entries[0].intersectionRatio <= 0.1) {return; }
       const current_state = this.props.current_music_state;
       const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
       this.props.fetchMore(next_music_state);
