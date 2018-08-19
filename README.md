@@ -14,9 +14,9 @@ This is my first music app based on react framework
 - 移动端播放条位置错乱问题
 
 ## 待添加
-- 当前歌曲歌词
+- 当前歌曲歌词 --> finished
 - 当前播放粒子动态效果
-- 歌曲下载 
+- 歌曲下载 --> defer 
 - 播放模式的选择 --> finished
 - 当前歌曲比特率的显示 --> finished
 - 搜索智能提示
