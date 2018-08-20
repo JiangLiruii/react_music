@@ -3,9 +3,11 @@ import songState from './song_list';
 import detailSongState from './song_single';
 import currentSong from './current_song';
 import currentNavIndex from './navigator';
+import searchTip from './search_tip';
 export default combineReducers({
   songState,
   detailSongState,
   currentSongState:currentSong,
   currentNavIndex,
+  searchTip,
 });
