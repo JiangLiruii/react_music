@@ -7,20 +7,21 @@ interface SongLyricsProps {
   current_nav:any;
 }
 interface SongLyricsStates {
-  origin_lyrics:any[];
+  origin_lyrics:string;
   show_lyrics_index:number;
 }
 @CSSModule(require('./index.scss'))
 class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
   private lyric_window;
+  private lyric_arr;
   public constructor(props:SongLyricsProps) {
     super(props);
-
     this.state = {
-      origin_lyrics: [],
+      origin_lyrics: '',
       show_lyrics_index: 0,
     };
     this.lyric_window = React.createRef();
+    this.lyric_arr = [];
   }
   private _transform(time:string) {
     const time_list = time.split(':');
@@ -28,48 +29,59 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
     const second = parseFloat(time_list[1]);
     return min * 60 + second;
   }
-
-  public componentDidMount() {
-    const audio = document.getElementsByTagName('audio')[0];
-    const lyric_arr = [];
-    const lyrics = this.props.lyrics.split(/\[|\]/);
+  private _transformLyrics(lyrics) {
+    lyrics = lyrics.split(/\[|\]/);
     lyrics.shift();
-    console.log(lyrics);
-
     for (let i = 0; i < lyrics.length;) {
       const time = this._transform(lyrics[i]);
-      lyric_arr[parseInt('' + i / 2)] = { time, lyric : lyrics[i + 1]};
+      this.lyric_arr[parseInt('' + i / 2)] = { time, lyric : lyrics[i + 1]};
       i += 2;
     }
-    this.setState({
-      origin_lyrics: lyric_arr,
-    });
+  }
+  public componentWillMount() {
+    this._transformLyrics(this.props.lyrics);
+  }
+  public componentDidMount() {
+    const audio = document.getElementsByTagName('audio')[0];
     audio.addEventListener('timeupdate', (e:any) => {
-      console.log(this.props.current_nav);
       if (this.props.current_nav.index != 2) {
         return;
       }
       const current_time = e.target.currentTime;
-      for (let i = 0; i < lyric_arr.length; i++) {
-        const delta_time = lyric_arr[i + 1].time - lyric_arr[i].time;
-        if (lyric_arr[i].time > (current_time - delta_time + 1) ) {
+      for (let i = 0; i < this.lyric_arr.length; i++) {
+        if (i === this.lyric_arr.length - 1) {
+          this.setState({
+            show_lyrics_index: i,
+          });
+          return;
+        }
+        const delta_time = this.lyric_arr[i + 1].time - this.lyric_arr[i].time;
+        if (this.lyric_arr[i].time > (current_time - delta_time + 1) ) {
           if (this.state.show_lyrics_index !== i) {
             this.lyric_window.current.scrollTop = (i - 3) * 60;
             setTimeout(() => this.setState({
               show_lyrics_index: i,
             }), 32);
           }
-          break;
+          return;
         }
       }
     });
+  }
+  public componentWillUpdate(nextProps:SongLyricsProps, nextState, nextContext) {
+    if (this.state.origin_lyrics != nextProps.lyrics) {
+      this.setState({
+        origin_lyrics: nextProps.lyrics,
+      });
+      this._transformLyrics(nextProps.lyrics);
+    }
   }
   public render() {
     return (
       <div styleName="lyric">
       <div styleName="display_lyric" ref={this.lyric_window}>
         {
-          this.state.origin_lyrics.map((obj, index) => {
+          this.lyric_arr.map((obj, index) => {
             return (<div styleName={this.state.show_lyrics_index === index ? 'current' : ''} key={index}>{obj.lyric}</div>);
           })
         }
