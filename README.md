@@ -1,6 +1,18 @@
 # react_music
 This is my first music app based on react framework
 
+# 0.3.0 --> 18.08.20
+
+## 新增
+- 当前歌曲歌词显示, 居中动态显示当前句.
+- 歌曲下载, 但是有bug, 如果是MP3格式的会打开新界面,而不是下载,其余格式可正常下载
+- 播放模式, 包括顺序播放, 单曲循环, 随机播放, 列表循环
+- 当前歌曲比特率显示
+- 智能搜索提示, 智能提示歌手, 歌曲, 专辑
+
+## 修复
+- 正在播放icon串列表显示, 新增根据当前nav index筛选
+
 # 0.2.0 --> 18.08.16
 
 ## 新增
@@ -19,7 +31,7 @@ This is my first music app based on react framework
 - 歌曲下载 --> defer 
 - 播放模式的选择 --> finished
 - 当前歌曲比特率的显示 --> finished
-- 搜索智能提示
+- 搜索智能提示 --> finished
 - 已搜索列表
 
 ## 优化: 可使用酷我音乐API, 音质较高, 以下是示例:
