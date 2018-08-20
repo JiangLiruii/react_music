@@ -16,6 +16,7 @@ interface SongInfoProps {
   is_play_list?:boolean;
   add_favo:typeof addMusicToFavoList;
   delete_favo:typeof deleteMusicFromFavoList;
+  current_nav_index:number;
 }
 @CSSModules(require('./index.scss'), {allowMultiple: true})
 class SongSingle extends React.Component<SongInfoProps, {}> {
@@ -26,7 +27,8 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     this._onDownload = this._onDownload.bind(this);
   }
   public _onSongClick() {
-    this.props.play_music(this.props.song, this.props.index);
+    const current_nav_index = this.props.is_play_list ? 0 : 1;
+    this.props.play_music(this.props.song, this.props.index, current_nav_index);
   }
   private _onAddClick() {
     if (this.props.is_play_list) {
@@ -40,8 +42,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     this.props.play_music(this.props.song);
   }
   public render() {
-    const is_now = this.props.index === this.props.current_song.index;
-    console.log(this.props.current_song.bitrate);
+    const is_now = this.props.index === this.props.current_song.index && (this.props.current_nav_index === this.props.current_song.nav_index);
     return (
       <div styleName="song">
         <span styleName={'song_index ' + (is_now ? 'active' : '')}>{this.props.index + 1}</span>
@@ -57,6 +58,8 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
 function map_states_to_props(state:ReduxStates) {
   return {
     current_song: state.currentSongState,
+    current_nav_index: state.currentNavIndex.index,
+
   };
 }
 function map_dispatch_to_props() {

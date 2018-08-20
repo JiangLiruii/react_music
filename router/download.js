@@ -1,11 +1,9 @@
 const request = require('superagent');
-
+const fs = require('fs');
 module.exports = (req, res) => {
   const url = req.query.url;
-  request(url).then(
-    result => {
-      res.send(result);
-    },
-    err => console.log(err)
-  );
+  const new_req = request.get(url).set({
+    'Connection': 'keep-alive'
+  })
+  new_req.pipe(fs.createWriteStream('download.mp3'));
 }
