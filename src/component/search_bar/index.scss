@@ -63,3 +63,33 @@ button {
   font-family: FontAwesome;
   color: rgb(127, 138, 46);
 }
+.search_recommend {
+  top: 5vh;
+  margin: 0 20%;
+  width: 60%;
+  text-align: center;
+  color: #37B862;
+  position: absolute;
+  background: rgba(128, 128, 128, 0.7);
+  z-index: 100;
+  box-shadow: rgba(125, 51, 81, 0.39) 18px 9px 26px 4px;
+  transition: all 0.5s;
+  dd {
+    height: 30px;
+    line-height: 30px;
+    -webkit-margin-start: 0;
+    margin: 2px 5px;
+    overflow: hidden;
+    border: rgb(25, 61, 52) solid 1px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    &:hover {
+      background-color: rgb(160, 67, 104);
+
+    }
+  }
+}
+.search_recommend.hide {
+  opacity: 0;
+}
