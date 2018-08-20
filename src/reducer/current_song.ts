@@ -14,6 +14,7 @@ export interface CurrentSong {
   timelength:number;
   hash:string;
   index:number;
+  nav_index:number;
 }
 
 const initalState = {
@@ -28,6 +29,7 @@ const initalState = {
   timelength:100,
   hash:'',
   index:-1,
+  nav_index:0,
 };
 const PLAY_MUSIC = 'music/PLAY_MUSIC';
 function promise_wrap(hash) {
@@ -43,7 +45,7 @@ function promise_wrap(hash) {
     });
   });
 }
-export function playAsyncMusic(data:SongInfo, index=-1) {
+export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
   const sqhash = data.sqhash;
   const hash320 = data['320hash'];
   const hash = data.hash;
@@ -59,15 +61,7 @@ export function playAsyncMusic(data:SongInfo, index=-1) {
       a.href = res.play_url;
       a.download = song_name;
       a.click();
-      // request(`http://localhost:3003/download?url=${res.play_url}`).then((res) => {
-      //   console.log(res);
-        // const b = res.blob();
-        // const bURL = URL.createObjectURL(b);
-        // const a = document.createElement('a');
-        // a.href = bURL;
-        // a.download = song_name;
-        // a.click();
-      // });
+      // request(`http://localhost:3003/download?url=${res.play_url}`)
     } : (res) => {
       if (!res) {
         return;
@@ -75,6 +69,7 @@ export function playAsyncMusic(data:SongInfo, index=-1) {
       dispatch(playMusic({
         ...res,
         index,
+        nav_index,
       }));
     };
     promise_wrap(sqhash)
