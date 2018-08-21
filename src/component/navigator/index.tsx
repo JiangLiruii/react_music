@@ -25,7 +25,7 @@ class Navigator extends Component<NavigatorProps, NavigatorStates> {
   public render() {
     return (
       <div styleName="navigator">
-        <span styleName={this.props.current_index === 0 ? 'active' : 'normal'} onClick={() => this._onNavClick(0)}>播放列表</span>
+        <span styleName={this.props.current_index === 0 ? 'active' : 'normal'} onClick={() => this._onNavClick(0)}>收藏列表</span>
         <span styleName={this.props.current_index === 1 ? 'active' : 'normal'} onClick={() => this._onNavClick(1)}>搜索结果</span>
         <span styleName={this.props.current_index === 2 ? 'active' : 'normal'} onClick={() => this._onNavClick(2)}>当前歌曲</span>
       </div>
