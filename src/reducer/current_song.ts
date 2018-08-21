@@ -55,13 +55,12 @@ export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
       if (!res) {
         return;
       }
-      console.log(res.play_url);
       const song_name = res.song_name;
       const a = document.createElement('a');
-      a.href = res.play_url;
-      a.download = song_name;
+      a.href = `http://localhost:3003/download?url=${res.play_url}&&name=${encodeURIComponent(song_name)}`;
+      document.body.appendChild(a);
       a.click();
-      // request(`http://localhost:3003/download?url=${res.play_url}`)
+      document.body.removeChild(a);
     } : (res) => {
       if (!res) {
         return;
@@ -86,7 +85,6 @@ export function playMusic(data) {
 }
 export default handleActions({
   [PLAY_MUSIC]: (state, action) => {
-    console.log(action);
     return {
       ...state,
       ...action.payload,

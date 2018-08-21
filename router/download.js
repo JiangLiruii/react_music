@@ -1,9 +1,12 @@
 const request = require('superagent');
-const fs = require('fs');
 module.exports = (req, res) => {
   const url = req.query.url;
-  const new_req = request.get(url).set({
-    'Connection': 'keep-alive'
-  })
-  new_req.pipe(fs.createWriteStream('download.mp3'));
+  const format = url.match(/.*\.(.*)/)[1];
+  const name = req.query.name;
+  console.log(url, format, name);
+  res.writeHead(200,{
+    'Content-type': 'application/octet-stream',
+    'Content-disposition': `attachment; filename=${encodeURIComponent(name)}.${format}` ,
+  });
+  request.get(url).pipe(res);
 }
