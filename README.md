@@ -1,6 +1,16 @@
 # react_music
 This is my first music app based on react framework
 
+# 0.4.0 --> 18.08.21
+
+## 新增
+- 当前歌曲封面图片
+
+## 修复
+- 歌词播放延时及性能损耗
+- 修复收藏和搜索列表播放时的上一曲和下一曲功能
+- 修复下载功能
+
 # 0.3.0 --> 18.08.20
 
 ## 新增
@@ -32,7 +42,7 @@ This is my first music app based on react framework
 - 播放模式的选择 --> finished
 - 当前歌曲比特率的显示 --> finished
 - 搜索智能提示 --> finished
-- 已搜索列表
+- ~~已搜索列表 --> 与智能搜索提示功能点重复, 衡量之后决定砍掉此功能~~
 
 ## 优化: 可使用酷我音乐API, 音质较高, 以下是示例:
 ```js
