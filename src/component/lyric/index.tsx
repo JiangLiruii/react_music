@@ -5,6 +5,7 @@ import { ReduxStates } from '../../reducer/ReduxStates';
 interface SongLyricsProps {
   lyrics:any;
   current_nav:any;
+  song_img:string;
 }
 interface SongLyricsStates {
   origin_lyrics:string;
@@ -14,6 +15,7 @@ interface SongLyricsStates {
 class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
   private lyric_window;
   private lyric_arr;
+  private audio;
   public constructor(props:SongLyricsProps) {
     super(props);
     this.state = {
@@ -22,6 +24,8 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
     };
     this.lyric_window = React.createRef();
     this.lyric_arr = [];
+    this.audio = document.getElementsByTagName('audio')[0];
+    this._onTimeUpdate = this._onTimeUpdate.bind(this);
   }
   private _transform(time:string) {
     const time_list = time.split(':');
@@ -41,32 +45,33 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
   public componentWillMount() {
     this._transformLyrics(this.props.lyrics);
   }
-  public componentDidMount() {
-    const audio = document.getElementsByTagName('audio')[0];
-    audio.addEventListener('timeupdate', (e:any) => {
-      if (this.props.current_nav.index != 2) {
-        return;
-      }
-      const current_time = e.target.currentTime;
-      for (let i = 0; i < this.lyric_arr.length; i++) {
-        if (i === this.lyric_arr.length - 1) {
-          this.setState({
-            show_lyrics_index: i,
-          });
-          return;
-        }
-        const delta_time = this.lyric_arr[i + 1].time - this.lyric_arr[i].time;
-        if (this.lyric_arr[i].time > (current_time - delta_time + 1) ) {
-          if (this.state.show_lyrics_index !== i) {
-            this.lyric_window.current.scrollTop = (i - 3) * 60;
-            setTimeout(() => this.setState({
-              show_lyrics_index: i,
-            }), 32);
-          }
-          return;
-        }
-      }
+  private _onTimeUpdate(e) {
+    const current_time = e.target.currentTime;
+    let lyric_index = this.state.show_lyrics_index;
+    if (this.props.current_nav.index != 2) {
+      return;
+    }
+    // 如果是最后一句歌词的话
+    if (lyric_index === this.state.origin_lyrics.length - 1) {
+      this.setState({
+        show_lyrics_index: lyric_index,
+      });
+      return;
+    }
+    // 如果下一句的开始时间小于当前时间,1.5s为偏移量, 提前进入下一句
+    while (this.lyric_arr[lyric_index + 1].time < current_time + 1.5) {
+      lyric_index += 1;
+    }
+    this.lyric_window.current.scrollTop = (lyric_index - 3) * 60;
+    this.setState({
+      show_lyrics_index: lyric_index,
     });
+  }
+  public componentDidMount() {
+    this.audio.addEventListener('timeupdate', this._onTimeUpdate);
+  }
+  public componentWillUnmount() {
+    this.audio.removeEventListener('timeupdate', this._onTimeUpdate);
   }
   public componentWillUpdate(nextProps:SongLyricsProps, nextState, nextContext) {
     if (this.state.origin_lyrics != nextProps.lyrics) {
@@ -78,7 +83,9 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
   }
   public render() {
     return (
-      <div styleName="lyric">
+      <div styleName="lyric" style={{
+        background: `url(${this.props.song_img}) no-repeat center/contain`,
+      }}>
       <div styleName="display_lyric" ref={this.lyric_window}>
         {
           this.lyric_arr.map((obj, index) => {
@@ -86,7 +93,6 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
           })
         }
       </div>
-
       </div>
     );
   }
@@ -95,6 +101,7 @@ function map_states_to_props(state:ReduxStates) {
   return {
     lyrics: state.currentSongState.lyrics,
     current_nav: state.currentNavIndex,
+    song_img: state.currentSongState.img,
   };
 }
 export default connect(map_states_to_props, {})(SongLyrics);
