@@ -7,7 +7,9 @@ import { SongInfo } from '../../reducer/song_single';
 import { playAsyncMusic } from '../../reducer/current_song';
 import CSSModules from 'react-css-modules';
 interface CurrentBarProps extends CurrentSong {
-  song_list:SongInfo[];
+  favo_song_list:SongInfo[];
+  search_song_list:SongInfo[];
+  nav_index:number;
   play_music:typeof playAsyncMusic;
 }
 interface CurrentBarState {
@@ -95,42 +97,51 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     });
   }
   private _onPrevClick() {
-    const song = this.props.song_list[this.props.index - 1];
-    this.props.play_music(song, this.props.index - 1);
+    let prev_song;
+    if (this.props.nav_index === 0) {
+      prev_song = this.props.favo_song_list[this.props.index - 1];
+    } else {
+      prev_song = this.props.search_song_list[this.props.index - 1];
+    }
+    this.props.play_music(prev_song, this.props.index - 1, this.props.nav_index);
   }
   private _onNextClick(e) {
     let index = this.props.index;
-    const list = this.props.song_list;
-    const origin_song = list[index];
-    const play = this.props.play_music;
-    let next_song = list[index + 1];
+    let song_list;
+    if (this.props.nav_index === 0) {
+      song_list = this.props.favo_song_list;
+    } else {
+      song_list = this.props.search_song_list;
+    }
+    let next_song = song_list[index + 1];
+    const play = (song, index) => this.props.play_music(song, index, this.props.nav_index);
+    // 判定是点击下一曲还是歌曲播放完毕的"下一曲"
     if (next_song && e.currentTarget.tagName === 'SPAN') {
       return play(next_song, index + 1);
     }
-    console.log(this.state.mode);
     switch (this.state.mode) {
       case 'sequence': {
         next_song && play(next_song, index + 1);
         break;
       }
       case 'loop_one': {
-        play(origin_song, index);
+        play(next_song, index);
         break;
       }
       case 'loop_list': {
         if (!next_song) {
-          next_song = list[0];
+          next_song = song_list[0];
           index = 0;
         }
         play(next_song, index);
         break;
       }
       case 'shaffle': {
-        let next_index = Math.ceil(Math.random() * (list.length - 1));
+        let next_index = Math.ceil(Math.random() * (song_list.length - 1));
         if (next_index === index) {
           next_index -= 1;
         }
-        next_song = list[next_index];
+        next_song = song_list[next_index];
         play(next_song, next_index);
         break;
       }
@@ -168,7 +179,8 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
 function map_states_to_props(state:ReduxStates) {
   return {
     ...state.currentSongState,
-    song_list: state.songState.favo_song_list,
+    favo_song_list: state.songState.favo_song_list,
+    search_song_list: state.songState.songs_list,
   };
 }
 
