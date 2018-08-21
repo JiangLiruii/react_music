@@ -86,10 +86,9 @@ button {
     transition: background-color 0.5s;
     &:hover {
       background-color: rgb(160, 67, 104);
-
     }
   }
 }
 .search_recommend.hide {
-  opacity: 0;
+  display: none;
 }
