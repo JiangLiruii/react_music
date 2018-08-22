@@ -62,7 +62,21 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
     while (this.lyric_arr[lyric_index + 1].time < current_time + 1.5) {
       lyric_index += 1;
     }
-    this.lyric_window.current.scrollTop = (lyric_index - 3) * 60;
+    function scrollAnimation(param_top:number) {
+      setTimeout(() => {
+        let s_top = this.lyric_window.current.scrollTop;
+        const offset = 10;
+        if (s_top + offset > param_top) {
+          s_top = param_top;
+        } else {
+          this.lyric_window.current.scrollTop += offset;
+        }
+        if (this.lyric_window.current.scrollTop < param_top) {
+          scrollAnimation.call(this, param_top);
+        }
+      }, 16);
+    }
+    scrollAnimation.call(this, (lyric_index - 3) * 60);
     this.setState({
       show_lyrics_index: lyric_index,
     });
