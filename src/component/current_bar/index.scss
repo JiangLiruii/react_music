@@ -103,11 +103,15 @@ input[name=volume] {
   justify-content: space-around;
   align-items: flex-end;
   align-self: flex-end;
-}
-.song_name {
-  flex:0 0 100%;
   font-size: 10px;
   text-align: center;
+}
+.song_name {
+  flex:0 0 70%;
+  overflow: hidden;
+}
+.bitrate {
+  flex: 0 0 30%;
 }
 .volume_icon {
   background: $player 0 -144px;

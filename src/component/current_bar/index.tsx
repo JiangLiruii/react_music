@@ -160,7 +160,8 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         <span styleName="next" onClick={this._onNextClick}></span>
         <div styleName="audio_bar">
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
-          <span styleName="song_name">{(this.props.song_name || '暂无歌曲') + ' 比特率: ' + this.props.bitrate}</span>
+          <span styleName="song_name">{this.props.song_name || '暂无歌曲'}</span>
+          <span styleName="bitrate">{'比特率: ' + this.props.bitrate}</span>
         </div>
         <div styleName="mode">
           <div styleName={this.state.mode} onClick={this._onModeClick}></div>
