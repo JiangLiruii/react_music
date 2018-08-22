@@ -47,7 +47,7 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
       <div styleName="song">
         <span styleName={'song_index ' + (is_now ? 'active' : '')}>{this.props.index + 1}</span>
         <span styleName="song_name" dangerouslySetInnerHTML={{__html: this.props.song.SongName}}></span>
-        <span styleName="artist_name">{this.props.song.SingerName}</span>
+        <span styleName="artist_name" dangerouslySetInnerHTML={{__html: this.props.song.SingerName}}></span>
         <span styleName={'play ' + (is_now ? 'now' : '')} onClick={this._onSongClick}></span>
         <span styleName={this.props.is_play_list ? 'delete_from_list' : 'add_play_list'} onClick={this._onAddClick}></span>
         <span styleName="download" onClick={this._onDownload}></span>
