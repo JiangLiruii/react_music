@@ -23,9 +23,9 @@ class SongList extends React.Component<SongListProps, SongListState> {
   private _footer:any;
   constructor(props:SongListProps) {
     super(props);
-    // this._onScroll = this._onScroll.bind(this);
-    // this._onTouchMove = this._onTouchMove.bind(this);
-    // this._onTouchStart = this._onTouchStart.bind(this);
+    this._onScroll = this._onScroll.bind(this);
+    this._onTouchMove = this._onTouchMove.bind(this);
+    this._onTouchStart = this._onTouchStart.bind(this);
   }
   public componentWillMount() {
     console.log('before', this.props.songs_list);
@@ -33,44 +33,51 @@ class SongList extends React.Component<SongListProps, SongListState> {
     this._footer = React.createRef();
   }
   public componentDidMount() {
-    const io = new IntersectionObserver((entries) => {
-      if (entries[0].intersectionRatio <= 0.1) {return; }
+    try {
+      const io = new IntersectionObserver((entries) => {
+        if (entries[0].intersectionRatio <= 0.1) {return; }
+        const current_state = this.props.current_music_state;
+        const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
+        this.props.fetchMore(next_music_state);
+      });
+      io.observe(this._footer.current);
+    } catch {
+      const selector = this._songs_list.current;
+      selector.onscroll = this._onScroll;
+      selector.ontouchmove = this._onTouchMove;
+      selector.ontouchstart = this._onTouchStart;
+    }
+  }
+  private _onScroll(e:any) {
+    const scroll_top = e.target.scrollTop;
+    const scroll_height = e.target.scrollHeight;
+    const client_height = e.target.clientHeight;
+    if (scroll_height - scroll_top - client_height === 0) {
       const current_state = this.props.current_music_state;
       const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
       this.props.fetchMore(next_music_state);
-    });
-    io.observe(this._footer.current);
+    }
   }
-  // private _onScroll(e:any) {
-  //   const scroll_top = e.target.scrollTop;
-  //   const scroll_height = e.target.scrollHeight;
-  //   const client_height = e.target.clientHeight;
-  //   if (scroll_height - scroll_top - client_height === 0) {
-  //     const current_state = this.props.current_music_state;
-  //     const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
-  //     this.props.fetchMore(next_music_state);
-  //   }
-  // }
-  // private _onTouchMove(e:any) {
-  //   if (e.target.offsetHeight < e.target.scrollHeight) {
-  //     // customize one property
-  //     e._isScroller = true;
-  //   }
-  //   if (!e._isScroller) {
-  //     e.preventDefault();
-  //   }
-  // }
-  // private _onTouchStart(e:any) {
-  //   const el = e.target;
-  //   const top = el.scrollTop;
-  //   const total_scroll = el.scrollHeight;
-  //   const current_scroll = top + el.offsetHeight;
-  //   if (top === 0) {
-  //     el.scrollTop = 1;
-  //   } else if (current_scroll === total_scroll) {
-  //     el.scrollTop = top - 1;
-  //   }
-  // }
+  private _onTouchMove(e:any) {
+    if (e.target.offsetHeight < e.target.scrollHeight) {
+      // customize one property
+      e._isScroller = true;
+    }
+    if (!e._isScroller) {
+      e.preventDefault();
+    }
+  }
+  private _onTouchStart(e:any) {
+    const el = e.target;
+    const top = el.scrollTop;
+    const total_scroll = el.scrollHeight;
+    const current_scroll = top + el.offsetHeight;
+    if (top === 0) {
+      el.scrollTop = 1;
+    } else if (current_scroll === total_scroll) {
+      el.scrollTop = top - 1;
+    }
+  }
 
   public render() {
     const need_show = this.props.songs_list.length > 0;
