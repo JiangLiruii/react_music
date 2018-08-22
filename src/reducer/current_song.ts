@@ -46,9 +46,9 @@ function promise_wrap(hash) {
   });
 }
 export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
-  const sqhash = data.sqhash;
-  const hash320 = data['320hash'];
-  const hash = data.hash;
+  const sqhash = data.SQFileHash;
+  const hqhash = data.HQFileHash;
+  const hash = data.FileHash;
   return (dispatch) => {
     // index = -1 则为download, 否则为播放.
     const success = index === -1 ? (res) => {
@@ -72,7 +72,7 @@ export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
       }));
     };
     promise_wrap(sqhash)
-    .then(success, () => promise_wrap(hash320))
+    .then(success, () => promise_wrap(hqhash))
     .then(success, () => promise_wrap(hash))
     .then(success, (e) => console.error(e));
   };

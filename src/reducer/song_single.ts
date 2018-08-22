@@ -1,30 +1,13 @@
 import { handleActions } from 'redux-actions';
 
-interface Artist {
-  id:number;
-  name:string;
-}
-interface Album {
-  id:number;
-  filename:string;
-  '320hash':string;
-  hash:string;
-  pic:number;
-}
-interface SongRate {
-  br:number;
-  size:number;
-}
 export interface SongInfo {
-  songname:string;
-  singername:string;
-  sqhash?:string;
-  '320hash'?:string;
-  hash:string;
+  SongName:string;
+  SingerName:string;
+  SQFileHash?:string;
+  HQFileHash?:string;
+  FileHash:string;
 }
-interface SongDetail {
-  id:number;
-}
+
 const FETCH_MUSIC = 'music/FETCH_MUSIC';
 export function fetchDetailMusicActionCreator(song_id:number) {
   return {

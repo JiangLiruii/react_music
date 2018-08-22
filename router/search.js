@@ -6,9 +6,10 @@ module.exports = (req, res) => {
     page,
     pagesize
   } = req.query;
-  request(`http://mobilecdn.kugou.com/api/v3/search/song?format=json&keyword=${encodeURIComponent(name)}&page=${page}&pagesize=${pagesize}&showtype=2`).then(
+  const url = `http://songsearch.kugou.com/song_search_v2?keyword=${encodeURIComponent(name)}&page=${page}&pagesize=${pagesize}&userid=-1&clientver=&platform=WebFilter&tag=em&filter=2&iscorrection=1&privilege_filter=0`;
+  request(url).then(
     result => {
-      const info = JSON.parse(result.text).data.info;
+      const info = JSON.parse(result.text).data.lists;
       res.send(info);
     },
     err => res.send(err)
