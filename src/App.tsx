@@ -9,7 +9,7 @@ import CSSModule from 'react-css-modules';
 import { connect } from 'react-redux';
 import { ReduxStates } from './reducer/ReduxStates';
 import { changeNavIndex } from './reducer/navigator';
-
+require('../favicon-16x16.png');
 interface AppProps {
   current_nav_index:number;
   changeNavIndex:typeof changeNavIndex;
