@@ -19,6 +19,7 @@ interface SearchBarStates {
 @CSSModules(require('./index.scss'), {allowMultiple: true})
 class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
   private timer;
+  private input_ref;
   constructor(props:SearchBarProps) {
     super(props);
     this.state = {
@@ -26,6 +27,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
       need_clear: true,
       show_tip_list: false,
     };
+    this.input_ref = React.createRef();
     this._onChange = this._onChange.bind(this);
     this._onClick = this._onClick.bind(this);
     this._search = this._search.bind(this);
@@ -45,8 +47,25 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
       show_tip_list: true,
     });
   }
+  /**
+   * 在输入框输入错误后的抖动提示函数
+   * @param times 抖动的次数
+   */
+  private _shakeAnimation(times:number) {
+    const input_dom = this.input_ref.current;
+    input_dom.animate([{left: '-10px'}, {left: 0}, {left: '10px'}], {duration: 100, iterations: times, easing: 'ease-in-out', direction: 'alternate'});
+  }
   private _search(e:any) {
     e.preventDefault();
+    // 如果没有输入任何字符
+    if (/^(|歌手名\/歌名|请输入要搜索的歌曲)$/.test(this.state.searchInput)) {
+      this._shakeAnimation(6);
+      this.setState({
+        searchInput: '请输入要搜索的歌曲',
+        need_clear: true,
+      });
+      return;
+    }
     this.props.changeNavIndex(1);
     this.props.fetchMusic({name: this.state.searchInput, page: 1, pagesize: 20});
   }
@@ -82,7 +101,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     const need_tip = this.state.show_tip_list && this.props.tips_list.length > 0;
     return (
       <div styleName="search bar">
-        <form onBlur={this._onBlur}>
+        <form onBlur={this._onBlur} ref={this.input_ref}>
           <input type="text" value={value} onClick={this._onClick} onChange={this._onChange} />
           <button type="submit" onClick={this._search}></button>
           <div styleName={'search_recommend ' + (((!value.length || value == '歌手名/歌名') || !need_tip) ? 'hide' : '')} >
