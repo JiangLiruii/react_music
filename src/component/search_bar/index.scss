@@ -9,6 +9,9 @@ form {
   height: 42px;
   left: 0;
   margin: 0 auto;
+  .error_input {
+    color: #ff4d00a8 !important;
+  }
 }
 
 input[type=text],

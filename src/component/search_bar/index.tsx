@@ -24,7 +24,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     super(props);
     this.state = {
       searchInput: '歌手名/歌名',
-      need_clear: true,
+      need_clear: false,
       show_tip_list: false,
     };
     this.input_ref = React.createRef();
@@ -39,7 +39,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     this.props.getSearchTip(searchInput);
     if (searchInput.length !== 0) {
       this.setState({
-        need_clear: false,
+        show_tip_list: true,
       });
     }
     this.setState({
@@ -55,13 +55,23 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     const input_dom = this.input_ref.current;
     input_dom.animate([{left: '-10px'}, {left: 0}, {left: '10px'}], {duration: 100, iterations: times, easing: 'ease-in-out', direction: 'alternate'});
   }
+  // 不能输入颜文字
+  private _validateString(name:string) {
+    return /(\ud83c[\udf00-\udfff])|(\ud83d[\udc00-\ude4f])|(\ud83d[\ude80-\udeff])/g.test(name);
+  }
+  // 输入不能为空
+  private _empty_test(name:string) {
+    return /^(|歌手名\/歌名|请输入要搜索的歌曲|请输入正确的字符)$/.test(name);
+  }
+  // 点击搜索按钮式
   private _search(e:any) {
     e.preventDefault();
-    // 如果没有输入任何字符
-    if (/^(|歌手名\/歌名|请输入要搜索的歌曲)$/.test(this.state.searchInput)) {
+    const empty = this._empty_test(this.state.searchInput);
+    const error_formate = this._validateString(this.state.searchInput);
+    if (empty || error_formate) {
       this._shakeAnimation(6);
       this.setState({
-        searchInput: '请输入要搜索的歌曲',
+        searchInput: error_formate ? '请输入正确的字符' : '请输入要搜索的歌曲',
         need_clear: true,
       });
       return;
@@ -69,17 +79,16 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     this.props.changeNavIndex(1);
     this.props.fetchMusic({name: this.state.searchInput, page: 1, pagesize: 20});
   }
+  // 点击input框时
   private _onClick() {
-    this.state.need_clear && this.setState({
+    this._empty_test(this.state.searchInput) && this.setState({
       searchInput: '',
-    });
-    this.setState({
-      show_tip_list: true,
+      need_clear: false,
     });
   }
+  // 失焦 input时
   private _onBlur(e:any) {
-    console.log(e);
-    !e.target.value && this.setState({
+    !this.state.searchInput && this.setState({
       searchInput: '歌手名/歌名',
       need_clear: true,
     });
@@ -87,6 +96,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
       show_tip_list: false,
     }), 300);
   }
+  // 当建议被点击
   private _onTipClick(e:any) {
     const searchInput = e.target.innerText;
     this.setState({
@@ -102,7 +112,7 @@ class SearchBar extends React.Component<SearchBarProps, SearchBarStates> {
     return (
       <div styleName="search bar">
         <form onBlur={this._onBlur} ref={this.input_ref}>
-          <input type="text" value={value} onClick={this._onClick} onChange={this._onChange} />
+          <input styleName={this.state.need_clear ? 'error_input' : ''}type="text" value={value} onClick={this._onClick} onChange={this._onChange} />
           <button type="submit" onClick={this._search}></button>
           <div styleName={'search_recommend ' + (((!value.length || value == '歌手名/歌名') || !need_tip) ? 'hide' : '')} >
             <dl onClick={this._onTipClick}>
