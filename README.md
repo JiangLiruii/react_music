@@ -1,6 +1,19 @@
 # react_music
 This is my first music app based on react framework
 
+# 0.5.0 --> 18.08.22
+
+## 新增
+
+- 搜索框限制输入为空
+- 搜索框限制输入为颜文字
+- 搜索框错误输入时, 暗红色颜色提示
+- 添加搜索框输入错误抖动动画
+
+## 修复
+
+- awesome-font icon海外cdn连接过慢的问题, 使用单独的 icon png
+
 # 0.4.0 --> 18.08.21
 
 ## 新增
