@@ -8,8 +8,13 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Reducer from './reducer';
-const loggerMiddleware = createLogger();
-const store = createStore(Reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
+let loggerMiddleware;
+let store;
+if (process.env.NODE_ENV === 'development') {
+  loggerMiddleware = createLogger();
+  store = createStore(Reducer, applyMiddleware(thunkMiddleware));
+}
+store = createStore(Reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
 ReactDOM.render(
 <Provider store={store}>
