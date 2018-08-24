@@ -5,10 +5,11 @@
   "main": "src/index.tsx",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rm -rf ./build && NODE_ENV=production webpack",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "start:dev": "node ./proxy_request.js & node ./server.js"
+    "start:dev": "NODE_ENV=development node ./proxy_request.js & node ./server.js",
+    "start:prod": "NODE_ENV=product node ./proxy_request.js & http-server ./build -a 127.0.0.1 -p 7070"
   },
   "dependencies": {
     "@types/request": "^2.47.1",
@@ -42,6 +43,7 @@
     "file-loader": "^1.1.11",
     "handlebars-loader": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
     "mini-css-extract-plugin": "^0.4.1",
     "node-sass": "^4.9.2",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
@@ -51,6 +53,8 @@
     "react-hot-loader": "^4.3.4",
     "redux": "^4.0.0",
     "redux-actions": "^2.6.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
     "style": "^0.0.3",
     "style-loader": "^0.21.0",

@@ -6,7 +6,7 @@ const devMode = process.env.NODE_ENV !== 'production';
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   entry: [
     // 开启react代码的模块热替换（HMR）, 必不可少
     'react-hot-loader/patch',
@@ -60,7 +60,7 @@ module.exports = {
     },{
       test: /\.(jpg|jpeg|gif|png)$/,
       use: {loader: 'file-loader'}
-    }, {
+    },{
       test: /\.css$/,
       // css-loader会遍历css文件，找到所有的url(...)并且处理。style-loader会把所有的样式插入到你页面的一个style tag中。
       use: ['style-loader',{
@@ -74,7 +74,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: __dirname + '/public/index.html'
+      template: __dirname + '/index.html'
     }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
