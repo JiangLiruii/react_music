@@ -22,7 +22,7 @@ module.exports = {
     path: path.join(__dirname, 'build'),
     filename: 'index.js',
     // HMR中必须的,让webpack知道在哪里载入热更新的模块(chunk)
-    publicPath: '/',
+    publicPath: devMode ? '/' : './',
   },
   // 绝对路径, 用于解析入口文件和loader的位置,而不依赖与CWD(current working directory)
   context: path.resolve(__dirname),
