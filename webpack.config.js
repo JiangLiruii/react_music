@@ -4,7 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const devMode = process.env.NODE_ENV !== 'production';
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+// 分离css
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+// 引入favicon
+const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV,
   entry: [
@@ -84,6 +87,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     // console输出更友好的模块名称,可以知道热重载时是哪个模块作出了变动
     new webpack.NamedModulesPlugin(),
+    new FaviconWebpackPlugin('./favicon-16x16.png'),
   ],
   node: {
     fs: "empty",
