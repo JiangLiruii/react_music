@@ -8,7 +8,7 @@ export interface SearchTip {
 const SET_SEARCHTIP = 'music/SET_SEARCHTIP';
 export function getSearchTip (value:string) {
   return (dispatch) => {
-    request(`http://localhost:3003/searchtip?value=${value}`).then(
+    request(`/searchtip?value=${value}`).then(
       (res) => dispatch(setSearchTip(res.body)), (err) => console.log(err),
     );
   };
