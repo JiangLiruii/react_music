@@ -77,6 +77,7 @@ module.exports = {
     }]
   },
   plugins: [
+    // 
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html'
     }),
@@ -84,7 +85,16 @@ module.exports = {
     // devMode && (new webpack.HotModuleReplacementPlugin()),
     // // console输出更友好的模块名称,可以知道热重载时是哪个模块作出了变动
     // devMode && (new webpack.NamedModulesPlugin()),
-    new FaviconWebpackPlugin({logo: './favicon-16x16.png',background: '#fff', theme_color: '#fff'}),
+    new FaviconWebpackPlugin({
+      logo: './favicon.png',
+      background: '#fff',
+      icons: {
+        // condig no-need format
+        android: false,
+        appleStartup: false,
+        appleIcon: false,
+      }
+    }),
     new OptimizeCSSAssetsPlugin({
       cssProcessor: cssnano,
       cssProcessorOptions: {
