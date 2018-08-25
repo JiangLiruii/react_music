@@ -1,27 +1,29 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const devMode = process.env.NODE_ENV !== 'production';
 // // 分离css
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const cssnano = require('cssnano');
 // 引入favicon
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     // app入口文件
-    main: './src/index',
+    main: ['webpack/hot/dev-server', './src/index'],
 
   },
   output: {
     path: path.join(__dirname, 'build'),
-    filename: '[name].[chunkhash].bundle.js',
+    filename: '[name].[hash].bundle.js',
     // 公共路径, 根目录
-    publicPath: './',
+    publicPath: '/'
   },
   // 绝对路径, 用于解析入口文件和loader的位置,而不依赖与CWD(current working directory)
   context: path.resolve(__dirname),
+  // 启用source-map工具, 速度不是很快,eval的速度最快, 详情请参见: https://webpack.js.org/configuration/devtool/
+  devtool: 'source-map',
   // 需要解析的扩展名
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -73,9 +75,9 @@ module.exports = {
       template: __dirname + '/index.html'
     }),
     // // 开启全局HMR
-    // devMode && (new webpack.HotModuleReplacementPlugin()),
+    new webpack.HotModuleReplacementPlugin(),
     // // console输出更友好的模块名称,可以知道热重载时是哪个模块作出了变动
-    // devMode && (new webpack.NamedModulesPlugin()),
+    // new webpack.NamedModulesPlugin(),
     new FaviconWebpackPlugin({
       logo: './favicon.png',
       background: '#fff',
@@ -101,44 +103,19 @@ module.exports = {
     fs: "empty",
     tls:"empty"
  },
-  optimization: {
-    splitChunks: {
-      // 对所有模块进行优化, 将业务代码和库代码区分, 设置最小20kb,没有最大限制, 可异步加载, 节省单个文件阻塞时间
-      chunks: 'all',
-      minSize: 20000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      name: true,
-      cacheGroups: {
-        // 单独抽离react
-        react: {
-          test: /[\\/]node_modules[\\/]react.*[\\/]/,
-          priority: -9,
-        },
-        venders: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true,
-        }
-      }
-    },
-    minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: false,
-        uglifyOptions: {
-          compress: {
-            // 去掉所有的console
-            drop_console: true,
-          }
-        }
-      })
-    ]
-  },
+ devServer: {
+  hot: true,
+  // 开启HMR不刷新页面以避免有任何构建失败
+  hotOnly: true,
+  // 如果设置为true, webpack bundle的信息就不会显示了
+  noInfo: false,
+  // 404展示index.html页面
+  historyApiFallback: true,
+  // 是否gzip
+  compress: true,
+  port: 3001,
+  open: true,
+  // 使用代理之后, 所有指向context的请求都会指向localhost:3003, 参考https://webpack.js.org/configuration/dev-server/#devserver-proxy
+  proxy: {context: ['/download', '/music', '/searchtip', '/search'], target: 'http://localhost:3003'}
+ }
 }
