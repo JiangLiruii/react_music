@@ -44,7 +44,7 @@ const UnusualRouteFileMap = {
 const Wrap = fn => (req, res) => fn(req, res);
 
 // 同步读取 router 目录中的js文件, 根据命名规则, 自动注册路由
-fs.readdirSync("./router/").reverse().forEach(file => {
+fs.readdirSync("./api/").reverse().forEach(file => {
   if (/\.js$/i.test(file) === false) {
     return;
   }
@@ -55,7 +55,7 @@ fs.readdirSync("./router/").reverse().forEach(file => {
     route = UnusualRouteFileMap[file];
   } else {
     route =
-      "/" +
+      "/api/" +
       file
         .replace(/\.js$/i, "")
         .replace(/_/g, "/")
@@ -64,7 +64,7 @@ fs.readdirSync("./router/").reverse().forEach(file => {
         });
   }
 
-  app.use(route, Wrap(require("./router/" + file)));
+  app.use(route, Wrap(require("./api/" + file)));
 });
 
 const port = process.env.PORT || 3003;

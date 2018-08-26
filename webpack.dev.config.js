@@ -34,11 +34,11 @@ module.exports = {
       use: ['babel-loader', 'ts-loader'],
       test: /\.(tsx|ts)$/,
       exclude: /node_modules/,
-    },{
+    }, {
       use: ['babel-loader'],
       test: /\.(jsx|js)$/,
       exclude: /node_modules/,
-    },{
+    }, {
       test: /\.scss$/,
       // css-loader会遍历css文件，找到所有的url(...)并且处理。style-loader会把所有的样式插入到你页面的一个style tag中。
       use: [
@@ -51,16 +51,18 @@ module.exports = {
             localIdentName: '[path][name]__[local]--[hash:base64:5]',
             importLoaders: 1,
           },
-        }, 
+        },
         'sass-loader',
       ]
-    },{
+    }, {
       test: /\.(jpg|jpeg|gif|png)$/,
-      use: {loader: 'file-loader'}
-    },{
+      use: {
+        loader: 'file-loader'
+      }
+    }, {
       test: /\.css$/,
       // css-loader会遍历css文件，找到所有的url(...)并且处理。style-loader会把所有的样式插入到你页面的一个style tag中。
-      use: ['style-loader',{
+      use: ['style-loader', {
         loader: 'css-loader',
         options: {
           modules: true,
@@ -101,21 +103,24 @@ module.exports = {
   ],
   node: {
     fs: "empty",
-    tls:"empty"
- },
- devServer: {
-  hot: true,
-  // 开启HMR不刷新页面以避免有任何构建失败
-  hotOnly: true,
-  // 如果设置为true, webpack bundle的信息就不会显示了
-  noInfo: false,
-  // 404展示index.html页面
-  historyApiFallback: true,
-  // 是否gzip
-  compress: true,
-  port: 3001,
-  open: true,
-  // 使用代理之后, 所有指向context的请求都会指向localhost:3003, 参考https://webpack.js.org/configuration/dev-server/#devserver-proxy
-  proxy: {context: ['/download', '/music', '/searchtip', '/search'], target: 'http://localhost:3003'}
- }
+    tls: "empty"
+  },
+  devServer: {
+    hot: true,
+    // 开启HMR不刷新页面以避免有任何构建失败
+    hotOnly: true,
+    // 如果设置为true, webpack bundle的信息就不会显示了
+    noInfo: false,
+    // 404展示index.html页面
+    historyApiFallback: true,
+    // 是否gzip
+    compress: true,
+    port: 3001,
+    open: true,
+    // 使用代理之后, 所有指向context的请求都会指向localhost:3003, 参考https://webpack.js.org/configuration/dev-server/#devserver-proxy
+    proxy: [{
+      context: '/api',
+      target: 'http://localhost:3003'
+    }],
+  }
 }

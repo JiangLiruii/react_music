@@ -6,10 +6,13 @@ export interface SearchTip {
 }
 
 const SET_SEARCHTIP = 'music/SET_SEARCHTIP';
-export function getSearchTip (value:string) {
+export function getSearchTip(value:string) {
   return (dispatch) => {
-    request(`/searchtip?value=${value}`).then(
-      (res) => dispatch(setSearchTip(res.body)), (err) => console.log(err),
+    request.get('/api/searchtip')
+      .query({
+        value,
+      }).then(
+        (res) => dispatch(setSearchTip(res.body)), (err) => console.log(err),
     );
   };
 }
@@ -30,4 +33,4 @@ export default handleActions({
       tips_list,
     };
   },
-}, {tips_list: ['']});
+}, { tips_list: [''] });

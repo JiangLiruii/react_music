@@ -34,7 +34,10 @@ const initalState = {
 const PLAY_MUSIC = 'music/PLAY_MUSIC';
 function promise_wrap(hash) {
   return new Promise((resolve, reject) => {
-    request.get(`/music?hash=${hash}`)
+    request.get('/api/music')
+    .query({
+      hash,
+    })
     .then((res) => {
       const data = res.body;
       if (data.play_url) {
@@ -57,7 +60,7 @@ export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
       }
       const song_name = res.song_name;
       const a = document.createElement('a');
-      a.href = `/download?url=${res.play_url}&&name=${encodeURIComponent(song_name)}`;
+      a.href = `/api/download?url=${res.play_url}&&name=${encodeURIComponent(song_name)}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

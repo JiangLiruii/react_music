@@ -31,7 +31,12 @@ export function fetchMusicsAsyncActionCreator(query:Query) {
   const {name, page, pagesize} = query;
   return (dispatch) => {
     dispatch(changeLoadState(true));
-    request.get(`/search?name=${name}&page=${page}&pagesize=${pagesize}`)
+    request.get('/api/search')
+    .query({
+      name,
+      page,
+      pagesize,
+    })
     .then((res) => {
       dispatch(fetchMusicSyncActionCreator({songs_list: res.body, page}));
       dispatch(changeCurrentMusicState(query));
