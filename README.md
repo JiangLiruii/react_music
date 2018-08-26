@@ -1,6 +1,14 @@
 # react_music
 This is my first music app based on react framework
 
+# 0.6.0 --> 18.08.26
+
+## 优化
+
+- webpack打包过程, 将react库和其他第三方库单独打包, 业务代码单独打包, 可以优化浏览器缓存和加载速度
+- favicon
+- 使用webpack-dev-server proxy请求api
+
 # 0.5.0 --> 18.08.22
 
 ## 新增
