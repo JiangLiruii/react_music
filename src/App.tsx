@@ -33,6 +33,7 @@ class App extends React.Component<AppProps, {}> {
     const current_show = this.props.current_nav_index;
     return (
       <div styleName="App">
+        <div styleName="bg_img"></div>
         <SearchBar />
         <Nav clickFunc={this._onNavClick}/>
         <div styleName="list">
