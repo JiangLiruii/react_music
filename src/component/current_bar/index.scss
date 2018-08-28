@@ -73,7 +73,6 @@ input[name=volume] {
     height: 20px;
   }
 }
-
 .play {
 	background: $player 0 0;
 	width: 21px;
@@ -111,7 +110,10 @@ input[name=volume] {
   overflow: hidden;
 }
 .bitrate {
-  flex: 0 0 30%;
+  flex: 0 0 15%;
+}
+.time {
+  flex: 0 0 15%;
 }
 .volume_icon {
   background: $player 0 -144px;

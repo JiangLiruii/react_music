@@ -151,6 +151,11 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     }
   }
   public render() {
+    function transferTime(seconds:number) {
+      const min = Number.parseInt('' + seconds / 60);
+      seconds = Math.floor(seconds - min * 60);
+      return `${min >= 10 ? Math.floor(min / 10) : 0}${ min > 0 ? min % 10 : 0}: ${seconds >= 10 ? Math.floor(seconds / 10) : 0}${seconds % 10}`;
+    }
     return (
       <div styleName="current_song">
         <audio src={this.props.play_url} autoPlay={false} ref={this.playAudio}></audio>
@@ -159,8 +164,9 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
           onClick={this._onPlayClick}></span>
         <span styleName="next" onClick={this._onNextClick}></span>
         <div styleName="audio_bar">
-          <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="1" value={this.state.currentTime} onChange={this._onPlayChange} />
+          <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="0.9" value={this.state.currentTime} onChange={this._onPlayChange} />
           <span styleName="song_name">{this.props.song_name || '暂无歌曲'}</span>
+          {this.playAudio.current && <span styleName="time">{(transferTime(this.state.currentTime)) + '/' + transferTime(this.props.timelength / 1000)}</span>}
           <span styleName="bitrate">{'比特率: ' + this.props.bitrate}</span>
         </div>
         <div styleName="mode">
