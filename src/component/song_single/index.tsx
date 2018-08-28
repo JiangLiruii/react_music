@@ -43,6 +43,9 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
   }
   public render() {
     const is_now = this.props.index === this.props.current_song.index && (this.props.current_nav_index === this.props.current_song.nav_index);
+    if (!this.props.song.SongName) {
+      return;
+    }
     return (
       <div styleName="song">
         <span styleName={'song_index ' + (is_now ? 'active' : '')}>{this.props.index + 1}</span>

@@ -1,7 +1,7 @@
 .song {
   display: flex;
   flex-flow: row nowrap;
-  background-color: rgba(55, 184, 98, 0.607);
+  background-color: rgba(70, 62, 62, 0.607);
   align-items: center;
   min-height: 37px;
   /* width: 100%; */
@@ -13,6 +13,7 @@
     color: rgb(212, 231, 75);
   }
   margin-top: 1vh;
+
 }
 .song span {
   flex: 0 0 36px;
