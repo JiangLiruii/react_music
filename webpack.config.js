@@ -7,6 +7,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const cssnano = require('cssnano');
 // 引入favicon
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
+const bundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
   mode: 'production',
   entry: {
@@ -27,15 +28,18 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     modules: [path.resolve(__dirname, 'node_modules')],
   },
+  devtool: "source-map", 
   module: {
     rules: [{
       use: ['babel-loader', 'ts-loader'],
       test: /\.(tsx|ts)$/,
       exclude: /node_modules/,
+      sideEffects: false,
     },{
       use: ['babel-loader'],
       test: /\.(jsx|js)$/,
       exclude: /node_modules/,
+      sideEffects: false,
     },{
       test: /\.scss$/,
       // css-loader会遍历css文件，找到所有的url(...)并且处理。style-loader会把所有的样式插入到你页面的一个style tag中。
@@ -68,6 +72,8 @@ module.exports = {
     }]
   },
   plugins: [
+    // // if not production env need add following one plugin
+    new webpack.optimize.ModuleConcatenationPlugin(),
     // 
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html'
@@ -95,13 +101,35 @@ module.exports = {
         safe: false,
       },
       canPrint: false,
-    })
+    }),
+    // 打包模块分析
+    new bundleAnalyzer(),
   ],
   node: {
     fs: "empty",
     tls:"empty"
  },
   optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        sourceMap: false,
+        uglifyOptions: {
+          sourceMap: true,
+          compress: {
+            // 去掉所有的console
+            drop_console: true,
+            // 对多次引用但没定义为变量的变量提取
+            reduce_vars: true
+          },
+          output: {
+            // 紧凑的输出
+            beautify: false,
+            // 去掉所有
+            comments: false,
+          }
+        }
+      })
+    ],
     splitChunks: {
       // 对所有模块进行优化, 将业务代码和库代码区分, 设置最小20kb,没有最大限制, 可异步加载, 节省单个文件阻塞时间
       chunks: 'all',
@@ -129,16 +157,5 @@ module.exports = {
         }
       }
     },
-    minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: false,
-        uglifyOptions: {
-          compress: {
-            // 去掉所有的console
-            drop_console: true,
-          }
-        }
-      })
-    ]
   },
 }
