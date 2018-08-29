@@ -1,0 +1,38 @@
+appId: app.electron.LorryMusic # 应用ID
+artifactName: "LorryMusic.${ext}"
+productName: 'LorryMusic' # 打包完成后的应用名称
+npmRebuild: true # 是否在开始编译前重构原生依赖,可先尝试true, 如果出现问题再修改为false,
+
+files:
+  - index.js # 打包文件入口,后文将给出
+  
+directories:
+  output: electron_packed/ # 输出路径
+extraResources:
+  - from: "../build/" #包含的待打包文件
+    to: ""
+mac: # 打包成mac环境参数
+  target: 
+    - dmg # 打包为dmg格式(可选pkg,zip等)
+  icon: "../app_icon.png" # 图标所在路径
+dmg:
+  contents:
+    - x: 410
+      y: 170
+      type: link
+      path: /Applications
+    - x: 130
+      y: 170
+      type: file
+win: # 打包为win环境
+  icon: build/icon.ico # 图标所在路径
+  target:
+    - nsis # 打包为nsis格式
+  verifyUpdateCodeSignature: false # 是否需要验证签名
+  # requestedExecutionLevel: requireAdministrator # 执行等级(是否需要管理员权限,通常情况不需要)
+nsis:
+  oneClick: false # 是否一键安装(静默安装)
+  createDesktopShortcut: always # 创建桌面快捷方式
+  createStartMenuShortcut: true # 创建开始菜单快捷方式
+  # include: build/installer.nsh # 是否有额外的自定义安装需求,
+  runAfterFinish: true # 安装完成后是否勾选立即执行

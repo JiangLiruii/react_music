@@ -1,0 +1,18 @@
+{
+  "name": "electron_example",
+  "version": "1.0.0",
+  "description": "This is Lorry Music app",
+  "main": "index.js",
+  "devDependencies": {
+    "electron": "~2.0.2",
+    "electron-builder": "~20.7.1"
+  },
+  "author": "Lorry",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "superagent": "^3.8.3"
+  }
+}
