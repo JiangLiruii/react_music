@@ -117,10 +117,5 @@ module.exports = {
     compress: true,
     port: 3001,
     open: true,
-    // 使用代理之后, 所有指向context的请求都会指向localhost:3003, 参考https://webpack.js.org/configuration/dev-server/#devserver-proxy
-    proxy: [{
-      context: '/api',
-      target: 'http://localhost:3003'
-    }],
   }
 }
