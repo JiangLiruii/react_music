@@ -5,9 +5,11 @@ $player: url('../../img/player.png') no-repeat;
   min-height: 36px;
   display: flex;
   flex-flow: row nowrap;
-  background: rgba(146, 196, 53, 0.744);
   justify-content: space-around;
   align-items: center;
+  z-index: 1;
+  background: #6969696b;
+  border-radius: 5px;
 }
 
 input[type=range] {
@@ -106,14 +108,14 @@ input[name=volume] {
   text-align: center;
 }
 .song_name {
-  flex:0 0 70%;
+  flex:0 0 50%;
   overflow: hidden;
 }
 .bitrate {
-  flex: 0 0 15%;
+  flex: 0 0 20%;
 }
 .time {
-  flex: 0 0 15%;
+  flex: 0 0 20%;
 }
 .volume_icon {
   background: $player 0 -144px;

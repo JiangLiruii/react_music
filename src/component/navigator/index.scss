@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 5vh;
+  height: 40px;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -14,24 +14,17 @@
     height: 10vh;
     width: 100%;
     line-height: 10vh;
-    border: #7D3351 solid 1px;
-    border-left: none;
+    border-radius: 30px;
     &.active {
-      background: #37B862;
       font-size: 1.1rem;
-      box-shadow:  inset -4px 1px 20px 0px #7D3351;
     }
     &.normal {
-      background: #92C435;
       font-size: 1rem;
     }
     &:hover {
       font-weight: bolder;
       font-size: 1.1rem;
-      box-shadow:  inset -4px 1px 20px 0px #7D3351;
+      background: #6969696b;
     }
-  }
-  span:nth-child(1){
-    border: #7D3351 solid 1px;
   }
 }

@@ -1,8 +1,9 @@
 .songs_list {
-  flex: 1 1 60%;
   display: flex;
   flex-flow: column;
-  height: 77vh;
+  height: 75vh;
+  width: 100vw;
+  line-height: 75vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
   position: relative;

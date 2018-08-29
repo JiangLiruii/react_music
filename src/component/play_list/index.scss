@@ -1,9 +1,8 @@
 .play_list {
-  flex: 1 1 60%;
   display: flex;
   flex-flow: column nowrap;
   align-content: flex-start;
-  height: 77vh;
+  height: 75vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
   .loading_div {
