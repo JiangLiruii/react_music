@@ -10,7 +10,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "start:dev": "node ./proxy_request.js & webpack-dev-server --config webpack.dev.config.js",
-    "start:prod": "NODE_ENV=product node ./proxy_request.js & http-server ./build -a 127.0.0.1 -p 7070"
+    "start:prod": "NODE_ENV=product node ./proxy_request.js & http-server ./build -a 127.0.0.1 -p 7070 -P http://localhost:3003"
   },
   "dependencies": {
     "@types/request": "^2.47.1",
