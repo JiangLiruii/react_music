@@ -3,14 +3,12 @@
   flex-flow: column;
   height: 70vh;
   width: 100vw;
-  line-height: 70vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
   position: relative;
   .loading_div {
     position: absolute;
     height: 100%;
-    width: 100%;
     transition: all 0.5s ease-in-out;
     pointer-events: none;
   }
@@ -18,6 +16,6 @@
     display: none;
   }
   .go_to_search {
-    margin-top: 1vh;
+    line-height: 70vh;
   }
 }

@@ -7,6 +7,7 @@ export interface SongsState {
   currentMusicState:Query;
   isLoading:boolean;
   favo_song_list:SongInfo[];
+  end:boolean;
 }
 
 const FETCH_MUSICS = 'music/FETCH_MUSICS';
@@ -14,11 +15,13 @@ const CHANGE_STATE = 'music/CHANGE_STATE';
 const CHANGE_LOAD_STATE = 'music/CHANGE_LOAD_STATE';
 const ADD_FAVO_MUSIC_LIST = 'music/ADD_FAVO_MUSIC_LIST';
 const DELETE_FROM_FAVO_MUSIC = 'music/DELETE_FROM_FAVO_MUSIC';
+const CHANGE_END_STATE = 'music/CHANGE_END_STATE';
 const initalState:SongsState = {
   songs_list: [],
   currentMusicState: {name:'', page:1, pagesize:20},
   isLoading: false,
   favo_song_list: JSON.parse(window.localStorage.getItem('favo_song_list')) || [],
+  end: false,
 };
 
 export interface Query {
@@ -38,10 +41,24 @@ export function fetchMusicsAsyncActionCreator(query:Query) {
       pagesize,
     })
     .then((res) => {
+      // 如果没有返回值
+      if (res.text === '[]') {
+        return dispatch(fetchMusicsAsyncActionCreator(query));
+      } else if (res.text === '{}') {
+        dispatch(changeLoadState(false));
+        return dispatch(fetchSongEnd(true));
+      }
+      dispatch(fetchSongEnd(false));
       dispatch(fetchMusicSyncActionCreator({songs_list: res.body, page}));
       dispatch(changeCurrentMusicState(query));
       dispatch(changeLoadState(false));
     }, (err) => {console.log(err); } );
+  };
+}
+function fetchSongEnd(end:boolean) {
+  return {
+    type: CHANGE_END_STATE,
+    payload: end,
   };
 }
 function changeLoadState(isLoading:boolean) {
@@ -85,7 +102,6 @@ export default handleActions({
     } else {
       origin = action.payload.songs_list;
     }
-
     return {
       ...state,
       songs_list: origin,
@@ -115,4 +131,8 @@ export default handleActions({
       favo_song_list: new_songs_list,
     };
   },
+  [CHANGE_END_STATE]: (state, action:any) => ({
+    ...state,
+    end: action.payload,
+  }),
 }, initalState);

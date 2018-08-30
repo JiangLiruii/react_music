@@ -11,6 +11,7 @@ interface SongListProps {
   current_music_state:Query;
   fetchMore:typeof fetchMusicsAsyncActionCreator;
   is_loading:boolean;
+  end:boolean;
 }
 
 interface SongListState {
@@ -35,10 +36,11 @@ class SongList extends React.Component<SongListProps, SongListState> {
   public componentDidMount() {
     try {
       const io = new IntersectionObserver((entries) => {
-        if (entries[0].intersectionRatio <= 0.1) {return; }
-        const current_state = this.props.current_music_state;
-        const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
-        this.props.fetchMore(next_music_state);
+        if (entries[0].intersectionRatio >= 0.1) {
+          const current_state = this.props.current_music_state;
+          const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
+          !this.props.end && this.props.fetchMore(next_music_state);
+        }
       });
       io.observe(this._footer.current);
     } catch {
@@ -84,17 +86,13 @@ class SongList extends React.Component<SongListProps, SongListState> {
     return (
       <div styleName="songs_list" ref={this._songs_list}>
         {!need_show && <div styleName="go_to_search">快去搜索歌曲吧!</div>}
-        <div style={{
-          opacity: this.props.is_loading ? 1 : 0,
-        }} styleName="loading_div">
-          <Loading direction="down"/>
-        </div>
+        <Loading is_loading={this.props.is_loading} direction="down"/>
         {this.props.songs_list.map((song, index) => {
           return (
            <SongSingle song={song} index={index} key={index} is_play_list={false} />
           );
         })}
-        <div className="list_footer" style={{display: need_show ? 'block' : 'none'}}ref={this._footer}>上拉刷新</div>
+        <div className="list_footer" style={{display: need_show ? 'block' : 'none'}}ref={this._footer}>{this.props.end ? '我是有底线的' : '上拉刷新'}</div>
       </div>
     );
   }
@@ -104,6 +102,7 @@ function map_states_to_props(state:ReduxStates) {
     songs_list: state.songState.songs_list,
     current_music_state: state.songState.currentMusicState,
     is_loading: state.songState.isLoading,
+    end: state.songState.end,
   };
 }
 function map_dispatch_to_props() {
