@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: column nowrap;
   align-content: flex-start;
-  height: 75vh;
+  height: 70vh;
   overflow-y: scroll;
   -webkit-overflow-scrolling:touch;
   .loading_div {
@@ -10,5 +10,8 @@
   }
   &::-webkit-scrollbar {
     display: none;
+  }
+  .no_play {
+    line-height: 70vh;
   }
 }

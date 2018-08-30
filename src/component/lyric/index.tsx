@@ -100,13 +100,13 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
       <div styleName="lyric" style={{
         background: `url(${this.props.song_img}) no-repeat center/contain`,
       }}>
-      <div styleName="display_lyric" ref={this.lyric_window}>
-        {
-          this.lyric_arr.map((obj, index) => {
-            return (<div styleName={this.state.show_lyrics_index === index ? 'current' : ''} key={index}>{obj.lyric}</div>);
-          })
-        }
-      </div>
+        {this.lyric_arr.length ? <div styleName="display_lyric" ref={this.lyric_window}>
+          {
+             this.lyric_arr.map((obj, index) => {
+              return (<div styleName={this.state.show_lyrics_index === index ? 'current' : ''} key={index}>{obj.lyric}</div>);
+            })
+          }
+        </div> : <div styleName="no_music">现在还没有播放任何歌曲哦</div>}
       </div>
     );
   }

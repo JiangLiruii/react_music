@@ -10,16 +10,13 @@ interface PlayListProps {
 
 @CSSModule(require('./index.scss'))
 class PlayList extends React.Component<PlayListProps, {}> {
-  public shouldComponentUpdate(nextProps) {
-    return nextProps.play_list.length !== this.props.play_list.length;
-  }
   public render() {
     return (
       <div styleName="play_list">
-      {this.props.play_list.map((song, index) =>
+      {this.props.play_list.length ? this.props.play_list.map((song, index) =>
       (
         <SongSingle index={index} song={song} key={index} is_play_list={ true } />
-      ))}
+      )) : <div styleName="no_play">你还没有播放歌曲哦, 快去搜索并添加到播放列表吧</div>}
       </div>
     );
   }

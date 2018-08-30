@@ -14,9 +14,10 @@
     height: 10vh;
     width: 100%;
     line-height: 10vh;
-    border-radius: 30px;
     &.active {
       font-size: 1.1rem;
+      background: #6969696b;
+      border-radius: 30px;
     }
     &.normal {
       font-size: 1rem;

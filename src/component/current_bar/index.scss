@@ -7,7 +7,6 @@ $player: url('../../img/player.png') no-repeat;
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
-  z-index: 1;
   background: #6969696b;
   border-radius: 5px;
 }
@@ -38,9 +37,6 @@ input[type=range]::-webkit-slider-thumb {
   position: relative;
   top: -2px;
   background: #fff;
-}
-input[name=play_range] {
-  flex: 10 0 30%;
 }
 input[name=volume] {
   position: absolute;
@@ -106,16 +102,25 @@ input[name=volume] {
   align-self: flex-end;
   font-size: 10px;
   text-align: center;
+  .info {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+  }
+}
+input[name=play_range] {
+  flex: 0 0 100%;
 }
 .song_name {
-  flex:0 0 50%;
+  flex:0 10 50%;
   overflow: hidden;
 }
 .bitrate {
-  flex: 0 0 20%;
+  min-width: 52px;
 }
 .time {
-  flex: 0 0 20%;
+  min-width: 80px;
 }
 .volume_icon {
   background: $player 0 -144px;
