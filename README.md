@@ -1,6 +1,34 @@
 # react_music
 This is my first music app based on react framework
 
+# 1.0.0
+
+## 新增
+
+- electron打包成pc应用 
+- mac: `yarn build:mac`[点此下载](https://github.com/JiangLiruii/react_music/raw/master/LorryMusic.dmg)
+- win: `yarn build:win`
+
+## 修复:
+
+- 如果没有更多歌曲可以获取, 歌曲列表显示"我是有底线的"
+
+## 待优化
+
+- 利用cordova适配移动端
+- 使用PWA
+
+# 0.7.0
+
+## 修复
+
+- 歌曲列表中如果获取的是空白歌曲名占用空白行
+
+## 优化
+
+- 修改了配色和背景的blur属性
+- 播放栏位置
+
 # 0.6.0 --> 18.08.26
 
 ## 优化
