@@ -25,7 +25,7 @@ dmg:
       y: 170
       type: file
 win: # 打包为win环境
-  icon: build/icon.ico # 图标所在路径
+  icon: "../app_icon.png" # 图标所在路径
   target:
     - nsis # 打包为nsis格式
   verifyUpdateCodeSignature: false # 是否需要验证签名
