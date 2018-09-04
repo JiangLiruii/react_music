@@ -1,0 +1,16 @@
+{
+  "name": "Lorry Music", 
+  "short_name": "LMusic", 
+  "description": "For Music Search and Listening",
+  "display": "standalone",
+  "start_url": "/",
+  "theme_color": "#313131",
+  "background_color": "#313131",
+  "icons": [
+    {
+    "src": "favicon.png",
+    "sizes": "300x300",  
+    "type": "image/png" 
+  }
+  ]
+}

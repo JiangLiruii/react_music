@@ -117,5 +117,7 @@ module.exports = {
     compress: true,
     port: 3001,
     open: true,
+    // 为了开启pwa
+    https: true,
   }
 }
