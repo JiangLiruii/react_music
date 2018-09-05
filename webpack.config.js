@@ -8,6 +8,9 @@ const cssnano = require('cssnano');
 // 引入favicon
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
 const bundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const OfflinePlugin = require('offline-plugin');
+
 module.exports = {
   mode: 'production',
   entry: {
@@ -72,9 +75,18 @@ module.exports = {
     }]
   },
   plugins: [
-    // // if not production env need add following one plugin
+    new CopyWebpackPlugin([
+      {
+        from: 'src/img/icons',
+        to: 'icons/'
+      },
+      {
+        from: 'manifest.json',
+        to: 'manifest.json'
+      }
+    ]),
+    // if not production env need add following one plugin
     new webpack.optimize.ModuleConcatenationPlugin(),
-    // 
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html'
     }),
@@ -103,7 +115,8 @@ module.exports = {
       canPrint: false,
     }),
     // 打包模块分析
-    new bundleAnalyzer(),
+    // new bundleAnalyzer(),
+    new OfflinePlugin(),
   ],
   node: {
     fs: "empty",
