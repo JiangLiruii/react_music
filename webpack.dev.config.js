@@ -72,7 +72,7 @@ module.exports = {
     }]
   },
   plugins: [
-    // 
+    //
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html'
     }),
@@ -118,6 +118,6 @@ module.exports = {
     port: 3001,
     open: true,
     // 为了开启pwa
-    https: true,
+    // https: true,
   }
 }
