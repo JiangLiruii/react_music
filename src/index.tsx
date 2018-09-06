@@ -7,10 +7,10 @@ import { createLogger } from 'redux-logger';
 import './index.css';
 import App from './App';
 import Reducer from './reducer';
-// import registerSw from './registerServiceWorker';
+import registerSw from './registerServiceWorker';
 // 注册offline plugin runtime
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-OfflinePluginRuntime.install();
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// OfflinePluginRuntime.install();
 
 let store;
 
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   store = createStore(Reducer, applyMiddleware(thunkMiddleware));
 }
-// registerSw();
+registerSw();
 ReactDOM.render(
 <Provider store={store}>
   <App />
