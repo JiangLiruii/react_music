@@ -11,7 +11,7 @@ module.exports = {
   mode: 'development',
   entry: {
     // app入口文件
-    main: ['babel-polyfill', 'webpack/hot/dev-server', './src/index'],
+    main: ['@babel/polyfill', 'webpack/hot/dev-server', './src/index'],
 
   },
   output: {

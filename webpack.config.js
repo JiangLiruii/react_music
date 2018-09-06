@@ -16,7 +16,7 @@ module.exports = {
   mode: 'production',
   entry: {
     // app入口文件
-    main: ['./src/index'],
+    main: ['@babel/polyfill', './src/index'],
   },
   output: {
     path: path.join(__dirname, 'build'),
