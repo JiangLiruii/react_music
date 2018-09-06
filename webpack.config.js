@@ -11,12 +11,12 @@ const bundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
+
 module.exports = {
   mode: 'production',
   entry: {
     // app入口文件
-    main: './src/index',
-
+    main: ['./src/index'],
   },
   output: {
     path: path.join(__dirname, 'build'),
@@ -83,6 +83,9 @@ module.exports = {
       {
         from: 'manifest.json',
         to: 'manifest.json'
+      }, {
+        from: 'src/service-worker.js',
+        to: 'sw.js'
       }
     ]),
     // if not production env need add following one plugin
@@ -116,7 +119,7 @@ module.exports = {
     }),
     // 打包模块分析
     // new bundleAnalyzer(),
-    new OfflinePlugin(),
+    // new OfflinePlugin(),
   ],
   node: {
     fs: "empty",

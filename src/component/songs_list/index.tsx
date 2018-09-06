@@ -6,6 +6,7 @@ import { SongInfo } from '../../reducer/song_single';
 import CSSModules from 'react-css-modules';
 import { fetchMusicsAsyncActionCreator, Query } from '../../reducer/song_list';
 import Loading from '../common/loading';
+import assign from 'core-js/features/object/assign';
 interface SongListProps {
   songs_list:SongInfo[];
   current_music_state:Query;
@@ -38,7 +39,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
       const io = new IntersectionObserver((entries) => {
         if (entries[0].intersectionRatio >= 0.1) {
           const current_state = this.props.current_music_state;
-          const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
+          const next_music_state = assign(current_state, {page: +current_state.page + 1});
           !this.props.end && this.props.fetchMore(next_music_state);
         }
       });
@@ -56,7 +57,7 @@ class SongList extends React.Component<SongListProps, SongListState> {
     const client_height = e.target.clientHeight;
     if (scroll_height - scroll_top - client_height === 0) {
       const current_state = this.props.current_music_state;
-      const next_music_state = Object.assign(current_state, {page: +current_state.page + 1});
+      const next_music_state = assign(current_state, {page: +current_state.page + 1});
       this.props.fetchMore(next_music_state);
     }
   }
