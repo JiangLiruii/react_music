@@ -27,12 +27,14 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
     this.audio = document.getElementsByTagName('audio')[0];
     this._onTimeUpdate = this._onTimeUpdate.bind(this);
   }
+  // 将 xx:xx 转为 s
   private _transform(time:string) {
     const time_list = time.split(':');
     const min = parseInt(time_list[0]);
     const second = parseFloat(time_list[1]);
     return min * 60 + second;
   }
+  // 将获取的 json 格式歌词转化为 array
   private _transformLyrics(lyrics) {
     lyrics = lyrics.split(/\[|\]/);
     lyrics.shift();
@@ -58,25 +60,35 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
       });
       return;
     }
+    // 如果这一句歌词时间小于当前时间, 则需要向上走, 场景为如果用户将进度条往回拖动
+    while (this.lyric_arr[lyric_index - 1] && this.lyric_arr[lyric_index].time > current_time) {
+      lyric_index -= 1;
+    }
     // 如果下一句的开始时间小于当前时间,1.5s为偏移量, 提前进入下一句
-    while (this.lyric_arr[lyric_index + 1].time < current_time + 1.5) {
+    while (this.lyric_arr[lyric_index + 1] && (this.lyric_arr[lyric_index + 1].time < current_time + 1.5) && this.lyric_arr[lyric_index].time < current_time) {
       lyric_index += 1;
     }
-    function scrollAnimation(param_top:number) {
+    function scrollAnimation(s_top:number, param_top:number) {
+      // 如果是新的歌曲
+      if (param_top <= 10) {
+         return this.lyric_window.current.scrollTop = 0;
+      }
+      this.lyric_window.current.scrollTop = s_top;
       setTimeout(() => {
-        let s_top = this.lyric_window.current.scrollTop;
         const offset = 10;
-        if (s_top + offset > param_top) {
-          s_top = param_top;
+        // 如果当前滑动条大于param 高度
+        if (s_top + offset < param_top) {
+          s_top += offset;
+        } else if (s_top - offset > param_top) {
+          s_top -= offset;
         } else {
-          this.lyric_window.current.scrollTop += offset;
+          return;
         }
-        if (this.lyric_window.current.scrollTop < param_top) {
-          scrollAnimation.call(this, param_top);
-        }
-      }, 16);
+        scrollAnimation.call(this, s_top, param_top);
+      }, 8);
     }
-    scrollAnimation.call(this, (lyric_index - 3) * 60);
+    const mid = Math.floor(this.lyric_window.current.clientHeight / 30 / 2);
+    scrollAnimation.call(this, this.lyric_window.current.scrollTop, (lyric_index - mid) * 30);
     this.setState({
       show_lyrics_index: lyric_index,
     });
