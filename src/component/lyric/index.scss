@@ -4,22 +4,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   ::-webkit-scrollbar {
     display: none;
   }
   .display_lyric {
+    box-sizing: border-box;
     font-size: 1.3rem;
-    height: 50vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     overflow-y: hidden;
     display: flex;
     align-items: center;
     // justify-content: flex-end;
     flex-flow: column nowrap;
     overflow-y: scroll;
+    z-index: 2;
+    margin: 10vh 0;
+
     div {
       // min-height: 60px;
       transition: all 0.6s linear;
+      background: rgba(0,0,0,.7);
       &.no_music {
         line-height: 70vh;
         font-size: 1rem;

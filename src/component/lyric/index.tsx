@@ -109,9 +109,14 @@ class SongLyrics extends React.Component<SongLyricsProps, SongLyricsStates> {
   }
   public render() {
     return (
-      <div styleName="lyric" style={{
+      <div styleName="lyric">
+      <div style={{
         background: `url(${this.props.song_img}) no-repeat center/contain`,
-      }}>
+        filter: `blur(4px)`,
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+      }}></div>
         {this.lyric_arr.length ? <div styleName="display_lyric" ref={this.lyric_window}>
           {
              this.lyric_arr.map((obj, index) => {
