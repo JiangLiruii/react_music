@@ -7,6 +7,9 @@ import { createLogger } from 'redux-logger';
 import './index.css';
 import App from './App';
 import Reducer from './reducer';
+import routes from './routes';
+import BrowserRouter from 'react-router-dom/BrowserRouter';
+import { renderRoutes } from 'react-router-config';
 import registerSw from './registerServiceWorker';
 // 注册offline plugin runtime
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';
@@ -30,7 +33,9 @@ if (process.env.NODE_ENV === 'development') {
   store = createStore(Reducer, applyMiddleware(thunkMiddleware));
 }
 registerSw();
-ReactDOM.render(
+ReactDOM.hydrate(
 <Provider store={store}>
-  <App />
+  <BrowserRouter>
+    {renderRoutes(routes)}
+  </BrowserRouter>
 </Provider>, document.getElementById('root'));
