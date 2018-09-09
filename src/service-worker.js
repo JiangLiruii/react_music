@@ -7,7 +7,6 @@ const cacheList = [
   '/7358e9255598cf1959290bc51fe48cb0.png',
   '/8085b6952e7fcabd5bc0cea915ea65eb.png',
   '/ed7fe0713d6cecd8d1210255c944eff9.png',
-  '/icons/'
 ]
 /* event.waitUtil 用于在安装成功之前执行一些预装逻辑
  只做一些轻量级和非常重要资源的缓存，减少安装失败的概率
@@ -46,6 +45,9 @@ self.addEventListener('activate', e => {
 */
 self.addEventListener('fetch', e => {
   console.log('[ServiceWorker] Fetch', e.request.url);
+  if (e.request.url.includes('.mp3')) {
+    return fetch(e.request)
+  }
   // 解决打开 devtool 时对 document 进行 fetch 而 SW 无法处理而报错问题, 参考 https://github.com/paulirish/caltrainschedule.io/issues/49
   if (e.request.cache === 'only-if-cached' && e.request.mode !== 'same-origin'){
     return;
