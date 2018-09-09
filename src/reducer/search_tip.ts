@@ -8,7 +8,7 @@ export interface SearchTip {
 const SET_SEARCHTIP = 'music/SET_SEARCHTIP';
 export function getSearchTip(value:string) {
   return (dispatch) => {
-    request.get('http://localhost:3003/api/searchtip')
+    request.get('https://lorry-music-api.leanapp.cn/api/searchtip')
       .query({
         value,
       }).then(

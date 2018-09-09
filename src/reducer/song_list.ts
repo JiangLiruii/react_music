@@ -34,7 +34,7 @@ export function fetchMusicsAsyncActionCreator(query:Query) {
   const {name, page, pagesize} = query;
   return (dispatch) => {
     dispatch(changeLoadState(true));
-    request.get('http://localhost:3003/api/search')
+    request.get('https://lorry-music-api.leanapp.cn/api/search')
     .query({
       name,
       page,
