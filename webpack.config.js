@@ -19,7 +19,7 @@ module.exports = {
     main: ['@babel/polyfill', './src/index'],
   },
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.join(__dirname, 'deploy/node-js-getting-started/public'),
     filename: '[name].[chunkhash].bundle.js',
     // 公共路径, 根目录
     publicPath: './',
