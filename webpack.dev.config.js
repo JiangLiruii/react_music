@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const devMode = process.env.NODE_ENV !== 'production';
 // // 分离css
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const cssnano = require('cssnano');
 // 引入favicon
 const FaviconWebpackPlugin = require('favicons-webpack-plugin');
@@ -72,6 +73,12 @@ module.exports = {
     }]
   },
   plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: 'src/component/current_bar/click.mp3',
+        to: 'click.mp3'
+      },
+    ]),
     //
     new HtmlWebpackPlugin({
       template: __dirname + '/index.html'

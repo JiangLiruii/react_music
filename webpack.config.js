@@ -11,6 +11,7 @@ const bundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
+console.log(process.env.NODE_ARUG);
 
 module.exports = {
   mode: 'production',
@@ -19,7 +20,7 @@ module.exports = {
     main: ['@babel/polyfill', './src/index'],
   },
   output: {
-    path: path.join(__dirname, 'deploy/node-js-getting-started/public'),
+    path: path.join(__dirname, process.env.NODE_ARUG === 'deploy' ? 'deploy/node-js-getting-started/public' : 'build'),
     filename: '[name].[chunkhash].bundle.js',
     // 公共路径, 根目录
     publicPath: './',
@@ -86,7 +87,10 @@ module.exports = {
       }, {
         from: 'src/service-worker.js',
         to: 'sw.js'
-      }
+      },{
+        from: 'src/component/current_bar/click.mp3',
+        to: 'click.mp3'
+      },
     ]),
     // if not production env need add following one plugin
     new webpack.optimize.ModuleConcatenationPlugin(),

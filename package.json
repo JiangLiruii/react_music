@@ -6,7 +6,8 @@
   "main": "electron",
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf ./deploy/public & NODE_ENV=production webpack",
+    "build": "rm -rf ./build & NODE_ENV=production webpack",
+    "deploy": "rm -rf ./deploy/public & NODE_ENV=production NODE_ARUG=deploy webpack",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "start:dev": "webpack-dev-server --config webpack.dev.config.js --host 0.0.0.0",

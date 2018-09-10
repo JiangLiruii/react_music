@@ -18,6 +18,7 @@ import registerSw from './registerServiceWorker';
 let store;
 
 if (process.env.NODE_ENV === 'development') {
+  // 使用redux 插件辅助开发
   const composeEnhancers =
   typeof window === 'object' &&
   (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
@@ -33,7 +34,9 @@ if (process.env.NODE_ENV === 'development') {
   store = createStore(Reducer, applyMiddleware(thunkMiddleware));
 }
 registerSw();
-ReactDOM.hydrate(
+const renderMethod = (module as any).hot ? ReactDOM.render : ReactDOM.hydrate;
+
+renderMethod(
 <Provider store={store}>
   <BrowserRouter>
     {renderRoutes(routes)}
