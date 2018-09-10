@@ -26,8 +26,11 @@ class SongSingle extends React.Component<SongInfoProps, {}> {
     this._onAddClick = this._onAddClick.bind(this);
     this._onDownload = this._onDownload.bind(this);
   }
-  public _onSongClick() {
+  private _onSongClick() {
     const current_nav_index = this.props.is_play_list ? 0 : 1;
+    // 先播放一段默认无声音乐接触. play() 的限制.
+    const audio:any = document.getElementById('audio_tag');
+    audio.src.includes('click.mp3') && audio.play();
     this.props.play_music(this.props.song, this.props.index, current_nav_index);
   }
   private _onAddClick() {

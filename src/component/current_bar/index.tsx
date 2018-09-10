@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import { ReduxStates } from '../../reducer/ReduxStates';
 import { CurrentSong } from '../../reducer/current_song';
 import { SongInfo } from '../../reducer/song_single';
-import { playAsyncMusic } from '../../reducer/current_song';
+import { playAsyncMusic, playMusic } from '../../reducer/current_song';
 import CSSModules from 'react-css-modules';
 interface CurrentBarProps extends CurrentSong {
   favo_song_list:SongInfo[];
   search_song_list:SongInfo[];
   nav_index:number;
   play_music:typeof playAsyncMusic;
+  play_music_sync:typeof playMusic;
 }
 interface CurrentBarState {
   currentTime:number;
@@ -59,9 +60,15 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
   public componentDidMount() {
     const audio = this.playAudio.current;
     audio.oncanplay = () => {
-      audio.play();
+      if (!this.state.playing) {
       this.setState({
         playing:true,
+      });
+      }
+    };
+    audio.onpause = () => {
+      this.setState({
+        playing:false,
       });
     };
     audio.ontimeupdate = () => {
@@ -70,6 +77,11 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       });
     };
     audio.onended = (e) => {
+      if (audio.src.includes('click.mp3')) {
+        return this.setState({
+          playing:false,
+        });
+      }
       this._onNextClick(e);
     };
     audio.onerror = (e) => {
@@ -158,10 +170,10 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     }
     return (
       <div styleName="current_song">
-        <audio src={this.props.play_url} autoPlay={false} ref={this.playAudio}></audio>
+        <audio src={this.props.play_url || './click.mp3'} autoPlay={true} ref={this.playAudio} id="audio_tag"></audio>
         <span styleName="before" onClick={this._onPrevClick}></span>
         <span styleName={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
-          onClick={this._onPlayClick}></span>
+          onClick={this._onPlayClick} ></span>
         <span styleName="next" onClick={this._onNextClick}></span>
         <div styleName="audio_bar">
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="0.9" value={this.state.currentTime} onChange={this._onPlayChange} />
@@ -187,6 +199,9 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       </div>
     );
   }
+  public componentWillUnmount() {
+    this.props.play_music_sync({play_url: ''});
+  }
 }
 
 function map_states_to_props(state:ReduxStates) {
@@ -200,6 +215,7 @@ function map_states_to_props(state:ReduxStates) {
 function map_dispatch_to_props() {
   return {
     play_music: playAsyncMusic,
+    play_music_sync: playMusic,
   };
 }
 

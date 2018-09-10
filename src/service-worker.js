@@ -7,6 +7,7 @@ const cacheList = [
   '/7358e9255598cf1959290bc51fe48cb0.png',
   '/8085b6952e7fcabd5bc0cea915ea65eb.png',
   '/ed7fe0713d6cecd8d1210255c944eff9.png',
+  '/click.mp3',
 ]
 /* event.waitUtil 用于在安装成功之前执行一些预装逻辑
  只做一些轻量级和非常重要资源的缓存，减少安装失败的概率
