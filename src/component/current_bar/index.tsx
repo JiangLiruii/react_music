@@ -168,9 +168,10 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       seconds = Math.floor(seconds - min * 60);
       return `${min >= 10 ? Math.floor(min / 10) : 0}${ min > 0 ? min % 10 : 0}: ${seconds >= 10 ? Math.floor(seconds / 10) : 0}${seconds % 10}`;
     }
+    const play_url = this.props.play_url ? ('https://lorry-music-api.leanapp.cn/api/get?url=' + this.props.play_url) : './click.mp3';
     return (
       <div styleName="current_song">
-        <audio src={this.props.play_url || './click.mp3'} autoPlay={true} ref={this.playAudio} id="audio_tag"></audio>
+        <audio src={play_url} autoPlay={true} ref={this.playAudio} id="audio_tag"></audio>
         <span styleName="before" onClick={this._onPrevClick}></span>
         <span styleName={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
           onClick={this._onPlayClick} ></span>
@@ -179,7 +180,7 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="0.9" value={this.state.currentTime} onChange={this._onPlayChange} />
           <div styleName="info">
             <span styleName="song_name">{this.props.song_name || '暂无歌曲'}</span>
-            <span styleName="time"> {this.props.play_url ? (transferTime(this.state.currentTime)) + '/' + transferTime(this.props.timelength / 1000) : '00: 00/00: 00'}</span>
+            <span styleName="time"> {play_url ? (transferTime(this.state.currentTime)) + '/' + transferTime(this.props.timelength / 1000) : '00: 00/00: 00'}</span>
             <span styleName="bitrate">{'比特率: ' + this.props.bitrate}</span>
           </div>
 
