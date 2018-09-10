@@ -1,6 +1,24 @@
 # react_music
 This is my first music app based on react framework
 
+# 1.1.0
+
+## 新增
+
+- 完成线上部署
+- 使用 PWA 完成移动端的适配(不完美, 因为 api 为 http 请求, mix-content 在移动端会报错 导致 service-worker 启动失败)
+线上地址为:  http://lorry-music.leanapp.cn/ 可在移动端使用 Chrome 访问并添加到桌面
+
+## 修复
+
+- 移动端第一次点击无法通过非用户操作播放歌曲的报错
+- 修复歌词实时显示
+- 美化歌词显示界面的背景模糊
+
+## 待优化
+
+- 移动端的 UI 适配
+
 # 1.0.0
 
 ## 新增
