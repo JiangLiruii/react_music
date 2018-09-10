@@ -6,8 +6,8 @@ This is my first music app based on react framework
 ## 新增
 
 - 完成线上部署
-- 使用 PWA 完成移动端的适配(不完美, 因为 api 全部通过 node 代理请求, 在播放过程中无法暂停, 调节进度等操作)
-线上地址为:  http://lorry-music.leanapp.cn/ 可在移动端使用 Chrome 访问并添加到桌面
+- 使用 PWA 完成移动端的适配
+线上地址为:  http://lorry-music.leanapp.cn/ 可在移动端使用 Chrome 访问并添加到桌面, 可离线访问
 
 ## 修复
 
