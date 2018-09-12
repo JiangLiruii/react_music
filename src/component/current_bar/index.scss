@@ -114,16 +114,18 @@ input[name=volume] {
   font-size: 10px;
   text-align: center;
   margin: 0 1vw; 
+  .song_name {
+    flex: 0 0 100%;
+    width: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .info {
     width: 100%;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-between;
-    .song_name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
     .bitrate {
       min-width: 52px;
     }
