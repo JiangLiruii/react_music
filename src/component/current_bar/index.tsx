@@ -172,10 +172,12 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     return (
       <div styleName="current_song">
         <audio src={play_url} autoPlay={true} ref={this.playAudio} id="audio_tag"></audio>
-        <span styleName="before" onClick={this._onPrevClick}></span>
-        <span styleName={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
-          onClick={this._onPlayClick} ></span>
-        <span styleName="next" onClick={this._onNextClick}></span>
+        <div styleName="control_bar">
+          <span styleName="before" onClick={this._onPrevClick}></span>
+          <span styleName={this.playAudio.current && (this.state.playing ? 'pause' : 'play') || 'play'}
+            onClick={this._onPlayClick} ></span>
+          <span styleName="next" onClick={this._onNextClick}></span>
+        </div>
         <div styleName="audio_bar">
           <input type="range" name="play_range" min="0" max={this.props.timelength / 1000} step="0.9" value={this.state.currentTime} onChange={this._onPlayChange} />
           <div styleName="info">
