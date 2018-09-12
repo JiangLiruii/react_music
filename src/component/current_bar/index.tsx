@@ -192,8 +192,10 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         </div>
         <div
           onMouseOver = {() => this.setState({volume_show:true})}
-          onMouseLeave = {() => this.setState({volume_show:false})}>
-          <div styleName={this.state.currentVolume === 0 ? 'volume_mute_icon' : 'volume_icon'}
+          onMouseLeave = {() => this.setState({volume_show:false})}
+          onClick = {() => this.setState({volume_show:true})}
+          >
+          <div styleName={this.state.currentVolume == 0 ? 'volume_mute_icon' : 'volume_icon'}
             onClick={() => this.setState({
               volume_show: !this.state.volume_show,
             })}></div>

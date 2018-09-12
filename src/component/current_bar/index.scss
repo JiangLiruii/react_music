@@ -53,7 +53,7 @@ input[name=volume] {
   width: 26px;
   height: 25px;
   .sequence {
-    background: $player 0 -260px;
+    background: $player 0 -262px;
     width: 21px;
     height: 20px;
   }
@@ -80,7 +80,7 @@ input[name=volume] {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 0 10px;
+  margin: 0 1vw;
   .play {
     background: $player 0 0;
     width: 21px;
@@ -105,7 +105,7 @@ input[name=volume] {
 }
 
 .audio_bar {
-  flex: 3 0 60%;
+  flex: 3 0 50%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
@@ -113,14 +113,13 @@ input[name=volume] {
   align-self: center;
   font-size: 10px;
   text-align: center;
-  margin: 0 10px; 
+  margin: 0 1vw; 
   .info {
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     .song_name {
-      flex:0 0 50%;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -137,13 +136,13 @@ input[name=volume] {
   }
 }
 .volume_icon {
-  margin: 0 10px; 
+  margin: 0 1vw; 
   background: $player 0 -144px;
-  width: 24px;
+  width: 26px;
   height: 20px;
 }
 .volume_mute_icon {
-  margin: 0 10px; 
+  margin: 0 1vw; 
   background: $player 0 -182px;
   width: 26px;
   height: 20px;
