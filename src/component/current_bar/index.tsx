@@ -5,6 +5,7 @@ import { ReduxStates } from '../../reducer/ReduxStates';
 import { CurrentSong } from '../../reducer/current_song';
 import { SongInfo } from '../../reducer/song_single';
 import { playAsyncMusic, playMusic } from '../../reducer/current_song';
+import { SwitchQuality } from '../../reducer/song_quality';
 import CSSModules from 'react-css-modules';
 interface CurrentBarProps extends CurrentSong {
   favo_song_list:SongInfo[];
@@ -12,6 +13,8 @@ interface CurrentBarProps extends CurrentSong {
   nav_index:number;
   play_music:typeof playAsyncMusic;
   play_music_sync:typeof playMusic;
+  switch_quality:typeof SwitchQuality;
+  is_quality:boolean;
 }
 interface CurrentBarState {
   currentTime:number;
@@ -40,6 +43,7 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
     this._onModeClick = this._onModeClick.bind(this);
     this._onNextClick = this._onNextClick.bind(this);
     this._onPrevClick = this._onPrevClick.bind(this);
+    this._onQualityChange = this._onQualityChange.bind(this);
   }
   private _onPlayChange(e:any) {
     const currentTime = e.target.value;
@@ -129,6 +133,7 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
       song_list = this.props.search_song_list;
     }
     let next_song = song_list[index + 1];
+    const current_song = song_list[index];
     const play = (song, index) => this.props.play_music(song, index, this.props.nav_index);
     // 判定是点击下一曲还是歌曲播放完毕的"下一曲"
     if (next_song && e.currentTarget.tagName === 'SPAN') {
@@ -140,7 +145,7 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         break;
       }
       case 'loop_one': {
-        play(next_song, index);
+        play(current_song, index);
         break;
       }
       case 'loop_list': {
@@ -161,6 +166,18 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         break;
       }
     }
+  }
+  private _onQualityChange() {
+    const index = this.props.index;
+    let song_list;
+    if (this.props.nav_index === 0) {
+      song_list = this.props.favo_song_list;
+    } else {
+      song_list = this.props.search_song_list;
+    }
+    const current_song = song_list[index];
+    this.props.switch_quality();
+    this.props.play_music(current_song, index);
   }
   public render() {
     function transferTime(seconds:number) {
@@ -190,6 +207,8 @@ class CurrentBar extends React.Component<CurrentBarProps, CurrentBarState> {
         <div styleName="mode">
           <div styleName={this.state.mode} onClick={this._onModeClick}></div>
         </div>
+        <div styleName={'quality ' + (this.props.is_quality ? 'on' : 'off')} onClick={this._onQualityChange}>
+        </div>
         <div
           onMouseOver = {() => this.setState({volume_show:true})}
           onMouseLeave = {() => this.setState({volume_show:false})}
@@ -214,6 +233,7 @@ function map_states_to_props(state:ReduxStates) {
     ...state.currentSongState,
     favo_song_list: state.songState.favo_song_list,
     search_song_list: state.songState.songs_list,
+    is_quality: state.is_quality.quality,
   };
 }
 
@@ -221,6 +241,7 @@ function map_dispatch_to_props() {
   return {
     play_music: playAsyncMusic,
     play_music_sync: playMusic,
+    switch_quality: SwitchQuality,
   };
 }
 

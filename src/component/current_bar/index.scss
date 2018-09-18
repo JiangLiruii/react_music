@@ -137,6 +137,27 @@ input[name=volume] {
     flex: 0 0 100%;
   }
 }
+.quality {
+  align-self: center;
+  background: url('../../img/quality.png') no-repeat 0 0;
+  min-width: 80px;
+  height: 25px;
+
+  &.on {
+    animation: switch_on steps(25, start) 0.3s forwards;
+  }
+  &.off {
+    animation: switch_off steps(25, end) 0.3s forwards;
+  }
+}
+@keyframes switch_on {
+  0% {background-position-y: -0px};
+  100% {background-position-y: -800px}
+}
+@keyframes switch_off {
+  0% {background-position-y: -800px}
+  100% {background-position-y: -0px};
+}
 .volume_icon {
   margin: 0 1vw; 
   background: $player 0 -144px;
