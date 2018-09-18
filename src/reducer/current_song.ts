@@ -1,6 +1,7 @@
-import { handleActions } from 'redux-actions';
+import { handleActions, Action } from 'redux-actions';
 import { SongInfo } from './song_single';
 import request from 'superagent';
+import { store } from '../index';
 
 export interface CurrentSong {
   play_url:string;
@@ -49,9 +50,10 @@ function promise_wrap(hash) {
   });
 }
 export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
-  const sqhash = data.SQFileHash;
+  const is_quality = store.getState().is_quality.quality;
   const hqhash = data.HQFileHash;
-  const hash = data.FileHash;
+  const hash = is_quality ? hqhash : data.FileHash;
+  console.log(hash);
   return (dispatch) => {
     // index = -1 则为download, 否则为播放.
     const success = index === -1 ? (res) => {
@@ -74,16 +76,18 @@ export function playAsyncMusic(data:SongInfo, index=-1, nav_index=0) {
         nav_index,
       }));
     };
-    promise_wrap(sqhash)
-    .then(success, () => promise_wrap(hqhash))
-    .then(success, () => promise_wrap(hash))
-    .then(success, (e) => console.error(e));
+    promise_wrap(hash)
+    .then(success, () => {
+      dispatch({type: 'music/SWITCH_QUALITY', quality: false});
+      promise_wrap(data.FileHash).then(success, (e) => console.log(e));
+    });
   };
 }
+
 export function playMusic(data) {
   return {
     type: PLAY_MUSIC,
-    payload: {...data},
+    payload: data,
   };
 }
 export default handleActions({

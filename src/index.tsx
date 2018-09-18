@@ -15,7 +15,7 @@ import registerSw from './registerServiceWorker';
 // import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 // OfflinePluginRuntime.install();
 
-let store;
+export let store;
 
 if (process.env.NODE_ENV === 'development') {
   // 使用redux 插件辅助开发
