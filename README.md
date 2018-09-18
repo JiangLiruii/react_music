@@ -1,6 +1,13 @@
 # react_music
 This is my first music app based on react framework
 
+# 1.1.1
+
+## 优化
+
+- 默认音质选择为普通 128 比特率(节省流量, 更快播放)
+- 可选高音质为 320 比特率(音质要求)
+
 # 1.1.0
 
 ## 新增
